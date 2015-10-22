@@ -54,4 +54,13 @@ function [nodes beams materials geometries beamloads nodeloads incloads] = lesin
 		line = fgets(fid);
 	end
 	fclose(fid);
+
+	% Convert all cell arrays to matrices.
+	nodes = cell2mat(nodes);
+	beams = cell2mat(beams);
+	materials = cell2mat(materials);
+	geometries = cell2mat(geometries);
+	beamloads = cell2mat(beamloads);
+	nodeloads = cell2mat(nodeloads);
+	incloads = cell2mat(incloads);
 end
