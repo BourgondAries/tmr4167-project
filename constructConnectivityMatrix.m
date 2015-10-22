@@ -1,4 +1,4 @@
-function [matrix] = constructConnectivityMatrix(nodes, beams)
+function [matrix] = constructConnectivityMatrix(beams)
 	matrix = [];
 	for i=1:size(beams)
 		elem = beams{i, 1};

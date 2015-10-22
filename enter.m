@@ -1,4 +1,4 @@
 function [] = enter()
 	[nodes, beams, mats, geoms, qloads, ploads, incloasd] = lesinput();
-	constructConnectivityMatrix(nodes, beams)
+	constructConnectivityMatrix(beams)
 end
