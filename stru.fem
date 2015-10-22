@@ -38,19 +38,29 @@
  BEAM 18      13  16  1        2
  BEAM 19      14  15  1        1
  BEAM 20      15  16  1        1
- '
+'
 '        matno E-mod     poiss yield     density    termX
  MISOIEP 1     0.210E+12 0.3   0.300E+09 0.7850E+04 0.0
-'
 '
 '     Geom ID  Do    Thick Shear_y Shear_z
  PIPE 1        1.025 .05
  BOX  2        1.025 .05
 '
 '         Load Case Elem ID qx qy qz
- BEAMLOAD 1         1       0  0  -1.E+04
- BEAMLOAD 1         2       0  0  -1.E+04
- NODELOAD 1         2       0  0  -1.E+06
- NODELOAD 1         3       0  0  -1.E+06
+ BEAMLOAD 1         5       0  0  -9.E+03
+ BEAMLOAD 1         7       0  0  -1.E+04
+ BEAMLOAD 1         13      0  0  -8.E+03
+ BEAMLOAD 1         17      0  0  -8.E+03
+'         Load Case Elem ID px        py pz        distance
+ NODELOAD 1         6       0         0  -1.2E+05  1.26E+01
+ NODELOAD 1         8       0         0  -5.0E+04  0
+ NODELOAD 1         11      3.536E+04 0  0         7.0
+ NODELOAD 1         11      0         0  3.536E+04 7.0
+'
+'        Load Case Elem ID begin   end
+ INCLOAD 1         1       1.E+04  1.1E+04
+ INCLOAD 1         2       1.1E+04 1.2E+04
+ INCLOAD 1         3       1.2E+04 1.3E+04
+ INCLOAD 1         4       1.3E+04 1.4E+04
 '
 '
