@@ -1,52 +1,56 @@
-function [npunkt punkt nelem elem nlast last]=lesinput()
+function [nodes beams materials geometries beamloads nodeloads incloads] = lesinput()
+	% The grammar is LL(1), implemented by a simple hand-written parser.
+	% The comment preprocessor is embedded due to its simplicity.
+	% Comments are lines starting with a '#' character.
+	% Other lines start with a lexeme that determines the productions for that line.
+	% Here is the grammar:
+	% START ::= { ENTITY }
+	% ENTITY ::=
+	%  | 'NODE' node_id x y z { boundary_code }
+	%  | 'BEAM' elem_id node1 node2 material geometry
+	%  | 'MISOIEP material_id e_modulus poisson_modulus yield_strength density
+	%  | ('PIPE'|'BOX') geometry_id do thickness
+	%  | 'BEAMLOAD' case elem qx qy qz
+	%  | 'NODELOAD' case elem px py pz distance
+	%  | 'INCLOAD' case elem begin end
 
+	% Initialize the return parameters
+	nodes = [];
+	beams = [];
+	materials = [];
+	geometries = [];
+	beamloads = [];
+	nodeloads = [];
+	incloads = [];
 
-%       %i = heltall (integer)       %f : desimaltall (flyt-tall)
+	% Ew! Impure IO! Needs to be removed, input ought to be a string.
+	fid = fopen('stru.fem','r');
 
-
-%åpner inputfila
-filid = fopen('input.txt','r');
-
-
-%Leser hvor mange punkt det er
-npunkt = fscanf(filid,'%i',[1 1])
-
-
-% LESER INN XY-KOORDINATER TIL KNUTEPUNKTENE
-% Nodenummer tilsvarer radnummer i "Node-variabel"
-% x-koordinat lagres i første kolonne, y-koordinat i 2.kolonne
-% Grensebetingelse lagres i kolonne 3, fast innspent=1 og fri rotasjon=0
-punkt = fscanf(filid,'%f %f %i',[3 npunkt])'
-
-
-%Leser hvor mange element det er
-nelem = fscanf(filid,'%i',[1 1])
-
-
-%Leser konnektivitet: sammenheng elementender og knutepunktnummer. Og EI for elementene
-% Elementnummer tilsvarer radnummer i "Elem-variabel"
-% Knutepunktnummer for lokal ende 1 lagres i kolonne 1
-% Knutepunktnummer for lokal ende 2 lagres i kolonne 2
-% E-modul for materiale lagres i kolonne 3
-% Tverrsnittstype lagres i kolonne 4, I-profil=1 og rørprofil=2  
-elem = fscanf(filid,'%i %i %f %i',[4 nelem])'
-
-
-%Les hvor mange laster som virker. 
-nlast = fscanf(filid,'%i',[1 1])
-
-
-%Les lastdata
-% Bestem selv hvilke verdiene som er nødvendig å lese inn, og hva verdiene som leses inn
-%skal representere
-last = fscanf(filid,'%i %f %f %f',[4 nlast])'
-
-
-
-% LUKKER INPUT-FILEN
-fclose(filid);
-
-
-
-
+	line = fgets(fid);
+	while line ~= -1
+		if line(1) == '#'
+			% Skip this line, it is a comment
+		else
+			elements = strsplit(line);
+			ll = elements{1};  % ll = lookahead
+			quantify = cellfun(@str2num, elements(2:end - 1), 'un', 0);
+			if strcmp(ll, 'NODE')
+				nodes = [nodes; quantify];
+			elseif strcmp(ll, 'BEAM')
+				beams = [beams; quantify];
+			elseif strcmp(ll, 'MISOIEP')
+				materials = [materials; quantify];
+			elseif strcmp(ll, 'PIPE') || strcmp(ll, 'BOX')
+				geometries = [geometries; quantify];
+			elseif strcmp(ll, 'BEAMLOAD')
+				beamloads = [beamloads; quantify];
+			elseif strcmp(ll, 'NODELOAD')
+				nodeloads = [nodeloads; quantify];
+			elseif strcmp(ll, 'INCLOAD')
+				incloads = [incloads; quantify];
+			end
+		end
+		line = fgets(fid);
+	end
+	fclose(fid);
 end
