@@ -2,7 +2,8 @@ function [] = enter()
 	[nodes, beams, mats, geoms, qloads, ploads, incload] = lesinput();
 	%  constructConnectivityMatrix(beams);
 
-	assignBeamLength(beams, nodes)
+	beams = assignBeamLength(beams, nodes)
+	beams = assignBeamElasticity(beams, mats)
 
 	%{
 	constructStiffnessMatrix(...
