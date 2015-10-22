@@ -16,7 +16,7 @@ NODE 14      58.000 .000 .000   1 1 1 1 1 1
 NODE 15      58.000 .000 14.000 1 0 1 1 0 1
 NODE 16      58.000 .000 28.000 1 0 1 1 0 1
 #
-#    Elem ID np1 np2 material geom lcoor ecc1 ecc2
+#    Elem ID np1 np2 material geom
 BEAM 1       1   2   1        1
 BEAM 2       2   3   1        1
 BEAM 3       3   4   1        1
