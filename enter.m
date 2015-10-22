@@ -1,5 +1,5 @@
 function [] = enter()
-	[nodes, beams, mats, geoms, qloads, ploads, incloasd] = lesinput();
+	[nodes, beams, mats, geoms, qloads, ploads, incload] = lesinput();
 	%  constructConnectivityMatrix(beams);
 
 	constructStiffnessMatrix(...
