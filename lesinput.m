@@ -26,6 +26,7 @@ function [nodes beams materials geometries beamloads nodeloads incloads] = lesin
 	% Ew! Impure IO! Needs to be removed, input ought to be a string.
 	fid = fopen('stru.fem','r');
 
+	% Sort the input according to its lookahead
 	line = fgets(fid);
 	while line ~= -1
 		if line(1) == '#'
