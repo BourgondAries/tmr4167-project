@@ -1,4 +1,4 @@
-function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesinput()
+function [nodes beams materials pipes boxes beamloads nodeloads incloads moments] = lesinput()
 	% The grammar is LL(1), implemented by a simple hand-written parser.
 	% The comment preprocessor is embedded due to its simplicity.
 	% Comments are lines starting with a '#' character.
@@ -14,6 +14,7 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesi
 	%  | 'BEAMLOAD' case elem qx qy qz
 	%  | 'NODELOAD' case elem px py pz distance
 	%  | 'INCLOAD' case elem begin end
+	%  | 'MOMENT' case elem moment distance
 
 	% Initialize the return parameters
 	nodes = [];
@@ -24,6 +25,7 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesi
 	beamloads = [];
 	nodeloads = [];
 	incloads = [];
+	moments = [];
 
 	% Ew! Impure IO! Needs to be removed, input ought to be a string.
 	fid = fopen('structure1.ehs','r');
@@ -53,6 +55,12 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesi
 				nodeloads = [nodeloads; quantify];
 			elseif strcmp(ll, 'INCLOAD')
 				incloads = [incloads; quantify];
+			elseif strcmp(ll, 'MOMENT')
+				moments = [moments; quantify];
+			else
+				% File contains a FIRST set element
+				% that is unknown.
+				assert(false);
 			end
 		end
 		line = fgets(fid);
@@ -68,4 +76,5 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesi
 	beamloads = cell2mat(beamloads);
 	nodeloads = cell2mat(nodeloads);
 	incloads = cell2mat(incloads);
+	moments = cell2mat(moments);
 end

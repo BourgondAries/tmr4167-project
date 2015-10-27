@@ -1,5 +1,5 @@
 function [] = enter()
-	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload] = lesinput();
+	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = lesinput();
 
 	conn = constructConnectivityMatrix(beams);
 	geoms = createGeometries(pipes, boxes);
