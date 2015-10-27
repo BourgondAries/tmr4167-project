@@ -37,8 +37,8 @@ function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize)
 		loadvec(node2) = loadvec(node2) + ...
 			q1*L^2/30;
 		loadvec(node1) = loadvec(node1) + ...
-			q1*L^2/30;
+			-q2*L^2/30;
 		loadvec(node2) = loadvec(node2) + ...
-			-q1*L^2/20;
+			q2*L^2/20;
 	end
 end

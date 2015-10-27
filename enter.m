@@ -20,13 +20,12 @@ function [] = enter()
 
 	% Compute the fixed end moments of each type of load
 	vecsize = max(nodes(:, 1));
-
 	fem = computeFixedEndMomentPointLoad(ploads, vecsize);
-	moments
 	fem2 = computeFixedEndMomentMomentLoad(moments, vecsize);
-	qloads
 	fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize);
 	fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize);
+	fem = fem + fem2 + fem3 + fem4
 
-	fem + fem2 + fem3 + fem4
+	% Now we're almost done, we have
+	% Kr = M
 end
