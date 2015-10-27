@@ -10,7 +10,12 @@ function [] = enter()
 	locals = computeAllElementStiffnesses(beams);
 	stiffness = constructStiffnessMatrix(conn, locals);
 
-	assignNodesToLoads(ploads, beams)
-	assignNodesToLoads(qloads, beams)
-	assignNodesToLoads(incload, beams)
+	% Assign the two nodes associated with the loads on the specific beam.
+	ploads = assignNodesToLoads(ploads, beams);
+	qloads = assignNodesToLoads(qloads, beams);
+	incloads = assignNodesToLoads(incload, beams);
+
+	% Compute the fixed end moments of each type of load
+
+	computeFixedEndMomentPointLoad(ploads)
 end

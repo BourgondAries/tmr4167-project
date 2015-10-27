@@ -9,4 +9,5 @@ function [matrix] = assignNodesToLoads(loads, beams)
 			end
 		end
 	end
+	matrix = [loads matrix];
 end
