@@ -13,4 +13,5 @@ function [matrix] = constructStiffnessMatrix(connectivity, locals)
 		matrix(stop, start) = matrix(stop, start) + locals(2, 1, i);
 		matrix(stop, stop) = matrix(stop, stop) + locals(2, 2, i);
 	end
+	assert(issymmetric(matrix));
 end

@@ -8,5 +8,6 @@ function [] = enter()
 	beams = assignBeamSecondMomentArea(beams, geoms);
 
 	locals = computeAllElementStiffnesses(beams);
-	constructStiffnessMatrix(conn, locals)
+	stiffness = constructStiffnessMatrix(conn, locals);
+
 end
