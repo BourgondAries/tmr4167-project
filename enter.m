@@ -19,6 +19,6 @@ function [] = enter()
 
 	% Compute the fixed end moments of each type of load
 
-	beams
-	computeFixedEndMomentPointLoad(ploads)
+	fem = computeFixedEndMomentPointLoad(ploads);
+	transpose(fem)
 end

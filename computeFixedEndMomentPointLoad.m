@@ -13,6 +13,7 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads)
 	%}
 	loadvec = [];
 	for i = 1:size(ploads)
+		length = ploads(i, 11);
 		distance = ploads(i, 6);
 		px = ploads(i, 3);
 
@@ -32,16 +33,23 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads)
 		projection = [dx dz] * [px; pz];
 		p = [px pz] - projection * [dx dz];
 		% Now to find out what direction the vector is perpendicular to. Is it positive to the left node? Or is it negative? How do we know this mathematically? Ah! We can use vector maths. Cross product! Let's try it out!
-		p
-		dx
-		dz
-		cross([p(1), 0, p(2)], [dx 0 dz])
-		% Gives -Pab^2/L^2 left, and Pa^2b/L^2 to the right
+		neg = cross([p(1) 0 p(2)], [dx 0 dz]);
+		neg = neg(2);
+		% If neg < 0, then we have that P is a clockwise moment around the least node.
+		% Gives Pab^2/L^2 left, and -Pa^2b/L^2 to the right
+		% Ensure the vector exists
 		if numel(loadvec) < node1
 			loadvec(node1) = 0;
 		end
+		if numel(loadvec) < node2
+			loadvec(node2) = 0;
+		end
+		L = length;
+		a = distance;
+		b = L - a;
 		loadvec(node1) = loadvec(node1) + ...
-			-1 ;
-
+			neg * a * b ^ 2 / L ^ 2;
+		loadvec(node2) = loadvec(node2) + ...
+			-neg .* a .^ 2 .* b ./ L .^ 2;
 	end
 end
