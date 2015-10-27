@@ -1,4 +1,4 @@
-function [nodes beams materials geometries beamloads nodeloads incloads] = lesinput()
+function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesinput()
 	% The grammar is LL(1), implemented by a simple hand-written parser.
 	% The comment preprocessor is embedded due to its simplicity.
 	% Comments are lines starting with a '#' character.
@@ -9,7 +9,8 @@ function [nodes beams materials geometries beamloads nodeloads incloads] = lesin
 	%  | 'NODE' node_id x y z { boundary_code }
 	%  | 'BEAM' elem_id node1 node2 material geometry
 	%  | 'MISOIEP material_id e_modulus poisson_modulus yield_strength density
-	%  | ('PIPE'|'BOX') geometry_id do thickness
+	%  | 'PIPE' geometry_id do thickness
+	%  | 'BOX' geometry_id ih oh iw ow
 	%  | 'BEAMLOAD' case elem qx qy qz
 	%  | 'NODELOAD' case elem px py pz distance
 	%  | 'INCLOAD' case elem begin end
@@ -18,7 +19,8 @@ function [nodes beams materials geometries beamloads nodeloads incloads] = lesin
 	nodes = [];
 	beams = [];
 	materials = [];
-	geometries = [];
+	pipes = [];
+	boxes = [];
 	beamloads = [];
 	nodeloads = [];
 	incloads = [];
@@ -41,8 +43,10 @@ function [nodes beams materials geometries beamloads nodeloads incloads] = lesin
 				beams = [beams; quantify];
 			elseif strcmp(ll, 'MISOIEP')
 				materials = [materials; quantify];
-			elseif strcmp(ll, 'PIPE') || strcmp(ll, 'BOX')
-				geometries = [geometries; quantify];
+			elseif strcmp(ll, 'PIPE')
+				pipes = [pipes; quantify];
+			elseif strcmp(ll, 'BOX')
+				boxes = [boxes; quantify];
 			elseif strcmp(ll, 'BEAMLOAD')
 				beamloads = [beamloads; quantify];
 			elseif strcmp(ll, 'NODELOAD')
@@ -59,7 +63,8 @@ function [nodes beams materials geometries beamloads nodeloads incloads] = lesin
 	nodes = cell2mat(nodes);
 	beams = cell2mat(beams);
 	materials = cell2mat(materials);
-	geometries = cell2mat(geometries);
+	pipes = cell2mat(pipes);
+	boxes = cell2mat(boxes);
 	beamloads = cell2mat(beamloads);
 	nodeloads = cell2mat(nodeloads);
 	incloads = cell2mat(incloads);

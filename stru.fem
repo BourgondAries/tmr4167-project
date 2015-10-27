@@ -43,7 +43,8 @@ MISOIEP 1     0.210E+12 0.3   0.300E+09 0.7850E+04
 #
 #    Geom ID  Do    Thick
 PIPE 1        1.025 .05
-BOX  2        1.025 .05
+#    Geom ID ih oh iw ow
+BOX  2       0.2 0.3 0.2 0.3
 #
 #        Load Case Elem ID qx qy qz
 BEAMLOAD 1         5       0  0  -9.E+03
