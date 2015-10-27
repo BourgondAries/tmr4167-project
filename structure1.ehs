@@ -38,8 +38,8 @@ BEAM 18      13  16  1        2
 BEAM 19      14  15  1        1
 BEAM 20      15  16  1        1
 #
-#       matno E-mod     poiss yield     density
-MISOIEP 1     0.210E+12 0.3   0.300E+09 0.7850E+04
+#        matno E-mod     poiss yield     density
+MATERIAL 1     0.210E+12 0.3   0.300E+09 0.7850E+04
 #
 #    Geom ID  Do    Thick
 PIPE 1        1.025 .05

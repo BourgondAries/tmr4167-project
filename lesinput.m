@@ -41,7 +41,7 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesi
 				nodes = [nodes; quantify];
 			elseif strcmp(ll, 'BEAM')
 				beams = [beams; quantify];
-			elseif strcmp(ll, 'MISOIEP')
+			elseif strcmp(ll, 'MATERIAL')
 				materials = [materials; quantify];
 			elseif strcmp(ll, 'PIPE')
 				pipes = [pipes; quantify];
