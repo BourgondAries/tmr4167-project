@@ -5,7 +5,8 @@ function [matrix] = assignNodesToLoads(loads, beams)
 		for j = 1:size(beams)
 			if loads(i, 2) == j
 				matrix = [matrix; beams(j, 2) ...
-					beams(j, 3)];
+					beams(j, 3) beams(j, 9)...
+					beams(j, 10)];
 			end
 		end
 	end
