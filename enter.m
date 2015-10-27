@@ -16,9 +16,12 @@ function [] = enter()
 	ploads = assignNodesToLoads(ploads, beams);
 	qloads = assignNodesToLoads(qloads, beams);
 	incloads = assignNodesToLoads(incload, beams);
+	moments = assignNodesToLoads(moments, beams);
 
 	% Compute the fixed end moments of each type of load
 
 	fem = computeFixedEndMomentPointLoad(ploads);
-	transpose(fem)
+	moments
+	fem2 = computeFixedEndMomentMomentLoad(moments);
+	transpose(fem2)
 end
