@@ -6,7 +6,7 @@ function [] = enter()
 	beams = assignBeamLength(beams, nodes);
 	beams = assignBeamElasticity(beams, mats);
 	beams = assignBeamSecondMomentArea(beams, geoms);
-	beams = assignBeamVector(beams, nodes)
+	beams = assignBeamVector(beams, nodes);
 
 	locals = computeAllElementStiffnesses(beams);
 	stiffness = constructStiffnessMatrix(conn, locals);
@@ -19,5 +19,6 @@ function [] = enter()
 
 	% Compute the fixed end moments of each type of load
 
+	beams
 	computeFixedEndMomentPointLoad(ploads)
 end

@@ -55,8 +55,7 @@ BEAMLOAD 1         17      0  0  -8.E+03
 #        Load Case Elem ID px        py pz        distance
 NODELOAD 1         6       0         0  -1.2E+05  1.26E+01
 NODELOAD 1         8       0         0  -5.0E+04  0
-NODELOAD 1         11      3.536E+04 0  0         7.0
-NODELOAD 1         11      0         0  3.536E+04 7.0
+NODELOAD 1         11      3.536E+04 0  3.536E+04         7.0
 #
 #       Load Case Elem ID begin   end
 INCLOAD 1         1       1.E+04  1.1E+04
