@@ -1,17 +1,17 @@
-function [loadvec] = computeFixedEndMomentBeamLoad(ploads)
+function [loadvec] = computeFixedEndMomentBeamLoad(ploads, vecsize)
 	%{
 		The fomula for fixed end point loads:
 
-		       P
+		       q
 		a -----|--------- b
-		       V
+		 VVVVVVVVVVVVVVV
 		|---------------|
 
 		a + b = L
 
 		Gives -Pab^2/L^2 left, and Pa^2b/L^2 to the right
 	%}
-	loadvec = [];
+	loadvec = zeros(vecsize, 1);
 	for i = 1:size(ploads)
 		length = ploads(i, 10);
 		qx = ploads(i, 3);

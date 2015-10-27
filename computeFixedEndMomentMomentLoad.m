@@ -1,4 +1,4 @@
-function [loadvec] = computeFixedEndMomentMomentLoad(mloads)
+function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize)
 	%{
 		The fomula for fixed end point loads:
 
@@ -11,7 +11,7 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads)
 
 		Gives Mb(2a-b)/L^2 to the left and Ma(2b-a)/L^2 to the right
 	%}
-	loadvec = [];
+	loadvec = zeros(vecsize, 1);
 	for i = 1:size(mloads)
 		length = mloads(i, 9);
 		distance = mloads(i, 4);

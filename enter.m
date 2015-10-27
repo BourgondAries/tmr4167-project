@@ -19,11 +19,14 @@ function [] = enter()
 	moments = assignNodesToLoads(moments, beams);
 
 	% Compute the fixed end moments of each type of load
+	vecsize = max(nodes(:, 1));
 
-	fem = computeFixedEndMomentPointLoad(ploads);
+	fem = computeFixedEndMomentPointLoad(ploads, vecsize);
 	moments
-	fem2 = computeFixedEndMomentMomentLoad(moments);
+	fem2 = computeFixedEndMomentMomentLoad(moments, vecsize);
 	qloads
-	fem3 = computeFixedEndMomentBeamLoad(qloads);
-	transpose(fem3)
+	fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize);
+	fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize);
+
+	fem + fem2 + fem3 + fem4
 end
