@@ -6,11 +6,14 @@ function [] = enter()
 	beams = assignBeamLength(beams, nodes);
 	beams = assignBeamElasticity(beams, mats);
 	beams = assignBeamSecondMomentArea(beams, geoms);
+	beams = assignBeamVector(beams, nodes)
+	return;
 
 	locals = computeAllElementStiffnesses(beams);
 	stiffness = constructStiffnessMatrix(conn, locals);
 
 	% Assign the two nodes associated with the loads on the specific beam.
+	beams
 	ploads = assignNodesToLoads(ploads, beams);
 	qloads = assignNodesToLoads(qloads, beams);
 	incloads = assignNodesToLoads(incload, beams);
