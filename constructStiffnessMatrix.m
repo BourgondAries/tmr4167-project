@@ -1,6 +1,9 @@
 function [matrix] = constructStiffnessMatrix(connectivity, locals)
 	% Need to find the global matrix size by looking at the largest node.
-	largest = max(connectivity(1, :));
+	n1 = max(connectivity(2, :));
+	n2 = max(connectivity(3, :));
+	largest = max(n1, n2);
+
 	matrix = zeros(largest);
 	for i = 1:size(connectivity, 2)
 		start = connectivity(2, i);
