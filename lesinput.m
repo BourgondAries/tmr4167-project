@@ -26,7 +26,7 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads] = lesi
 	incloads = [];
 
 	% Ew! Impure IO! Needs to be removed, input ought to be a string.
-	fid = fopen('stru.fem','r');
+	fid = fopen('structure1.ehs','r');
 
 	% Sort the input according to its lookahead
 	line = fgets(fid);
