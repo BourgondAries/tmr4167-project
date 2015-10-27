@@ -2,14 +2,14 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads)
 	%{
 		The fomula for fixed end point loads:
 
-		       P
+		       M
 		a -----|--------- b
 		       V
 		|---------------|
 
 		a + b = L
 
-		Gives -Pab^2/L^2 left, and Pa^2b/L^2 to the right
+		Gives Mb(2a-b)/L^2 to the left and Ma(2b-a)/L^2 to the right
 	%}
 	loadvec = [];
 	for i = 1:size(mloads)
@@ -20,7 +20,7 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads)
 		node1 = mloads(i, 5);
 		node2 = mloads(i, 6);
 
-		% Assume positive moment is counter clockwise.
+		% Assume positive moment is clockwise.
 
 		% Ensure the vector exists
 		if numel(loadvec) < node1

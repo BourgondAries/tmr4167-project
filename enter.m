@@ -23,5 +23,7 @@ function [] = enter()
 	fem = computeFixedEndMomentPointLoad(ploads);
 	moments
 	fem2 = computeFixedEndMomentMomentLoad(moments);
-	transpose(fem2)
+	qloads
+	fem3 = computeFixedEndMomentBeamLoad(qloads);
+	transpose(fem3)
 end
