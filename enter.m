@@ -10,4 +10,7 @@ function [] = enter()
 	locals = computeAllElementStiffnesses(beams);
 	stiffness = constructStiffnessMatrix(conn, locals);
 
+	assignNodesToLoads(ploads, beams)
+	assignNodesToLoads(qloads, beams)
+	assignNodesToLoads(incload, beams)
 end
