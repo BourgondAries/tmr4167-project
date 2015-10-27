@@ -2,10 +2,12 @@ function [] = enter()
 	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload] = lesinput();
 	constructConnectivityMatrix(beams);
 
-	createGeometries(pipes, boxes)
-
+	geoms = createGeometries(pipes, boxes);
 	beams = assignBeamLength(beams, nodes);
 	beams = assignBeamElasticity(beams, mats);
+	beams = assignBeamSecondMomentArea(beams, geoms)
+
+
 
 	%{
 	constructStiffnessMatrix(...
