@@ -24,8 +24,10 @@ function [] = enter()
 	fem2 = computeFixedEndMomentMomentLoad(moments, vecsize);
 	fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize);
 	fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize);
-	fem = fem + fem2 + fem3 + fem4
+	fem = fem + fem2 + fem3 + fem4;
 
 	% Now we're almost done, we have
 	% Kr = M
+	% We need to kill the columns that are constrained, so we need to build an identity matrix where some elements are 0.
+	[stiffness fem] = computeConstraintMatrix(nodes, fem, stiffness);
 end
