@@ -1,4 +1,4 @@
-function [matrix] = computeElementStiffness(hooke_module, secondmomentarea, length)
+function [matrix] = computeBeamStiffness(hooke_module, secondmomentarea, length)
 	i = secondmomentarea;
 	e = hooke_module;
 	l = length;

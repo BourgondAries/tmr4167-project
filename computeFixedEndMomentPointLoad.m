@@ -32,6 +32,9 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads)
 		projection = [dx dz] * [px; pz];
 		p = [px pz] - projection * [dx dz];
 		% Now to find out what direction the vector is perpendicular to. Is it positive to the left node? Or is it negative? How do we know this mathematically? Ah! We can use vector maths. Cross product! Let's try it out!
+		p
+		dx
+		dz
 		cross([p(1), 0, p(2)], [dx 0 dz])
 		% Gives -Pab^2/L^2 left, and Pa^2b/L^2 to the right
 		if numel(loadvec) < node1
