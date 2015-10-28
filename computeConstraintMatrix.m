@@ -10,6 +10,7 @@ function [matrix, newmoment] = computeConstraintMatrix(nodes, momentvec, stiffne
 		end
 	end
 	stiffness(:, remove) = [];
+	stiffness(remove, :) = [];
 	matrix = stiffness;
 	momentvec(remove, :) = [];
 	newmoment = momentvec;

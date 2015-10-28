@@ -29,5 +29,7 @@ function [] = enter()
 	% Now we're almost done, we have
 	% Kr = M
 	% We need to kill the columns that are constrained, so we need to build an identity matrix where some elements are 0.
+	fem
 	[stiffness fem] = computeConstraintMatrix(nodes, fem, stiffness);
+	inv(stiffness) * fem
 end
