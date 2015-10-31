@@ -1,4 +1,4 @@
-function [matrix, newmoment] = computeConstraintMatrix(nodes, momentvec, stiffness)
+function [matrix, newmoment] = pruneFixedEnds(nodes, momentvec, stiffness)
 	% All we really care about is the boundary code for moment around the y axis (depth).
 	% We just remove the columns of the stiffness matrix, and remove any rows from the
 	% moment vector where it is zero.

@@ -30,6 +30,8 @@ function [] = enter()
 	% Kr = M
 	% We need to kill the columns that are constrained, so we need to build an identity matrix where some elements are 0.
 	fem
-	[stiffness fem] = computeConstraintMatrix(nodes, fem, stiffness);
-	inv(stiffness) * fem
+	[stiffness fem] = pruneFixedEnds(nodes, fem, stiffness);
+	rotations = inv(stiffness) * fem
+
+	% We now have the angles for each point, with the fixed ends skipped
 end
