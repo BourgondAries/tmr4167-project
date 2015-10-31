@@ -24,13 +24,6 @@ function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize
 		q1 = incloads(i, 3);
 		q2 = incloads(i, 4);
 
-		% Ensure the vector exists
-		if numel(loadvec) < node1
-			loadvec(node1) = 0;
-		end
-		if numel(loadvec) < node2
-			loadvec(node2) = 0;
-		end
 		L = length;
 		% Segment the first load
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...

@@ -23,13 +23,6 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize)
 
 		% Assume positive moment is clockwise.
 
-		% Ensure the vector exists
-		if numel(loadvec) < node1
-			loadvec(node1) = 0;
-		end
-		if numel(loadvec) < node2
-			loadvec(node2) = 0;
-		end
 		L = length;
 		a = distance;
 		b = L - a;

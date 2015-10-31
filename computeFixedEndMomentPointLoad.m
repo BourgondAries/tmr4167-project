@@ -38,13 +38,6 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize)
 		neg = neg(2);
 		% If neg < 0, then we have that P is a clockwise moment around the least node.
 		% Gives Pab^2/L^2 left, and -Pa^2b/L^2 to the right
-		% Ensure the vector exists
-		if numel(loadvec) < node1
-			loadvec(node1) = 0;
-		end
-		if numel(loadvec) < node2
-			loadvec(node2) = 0;
-		end
 		L = length;
 		a = distance;
 		b = L - a;
