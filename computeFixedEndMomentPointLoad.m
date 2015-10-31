@@ -3,7 +3,7 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize)
 		The fomula for fixed end point loads:
 
 		       P
-		a -----|--------- b
+		a -----|------- b
 		       V
 		|---------------|
 
