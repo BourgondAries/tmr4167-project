@@ -9,38 +9,40 @@ function [ans] = enter()
 	beams = assignBeamSecondMomentArea(beams, geoms);
 	beams = assignBeamVector(beams, nodes);
 
+	% Calculate all local stiffness matrices
 	locals = computeAllElementStiffnesses(beams);
+
+	% Use the local stiffnesses and the connectivity matrix to construct
+	% the system's stiffness matrix.
 	stiffness = constructStiffnessMatrix(conn, locals);
 
 	% Assign the two nodes associated with the loads on the specific beam.
-	% Also add the vector of the beam. This is used so that point loads are correctly applied.
+	% Also add the vector of the beam.
+	% This is used so that loads are correctly applied.
 	ploads = assignNodesToLoads(ploads, beams);
 	qloads = assignNodesToLoads(qloads, beams);
 	incloads = assignNodesToLoads(incload, beams);
 	moments = assignNodesToLoads(moments, beams);
 
-
 	% Compute the fixed end moments of each type of load
 	vecsize = max(nodes(:, 1));
 	beamsize = max(beams(:, 1));
-	fem1 = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize);
-	fem2 = computeFixedEndMomentMomentLoad(moments, vecsize, beamsize);
-	fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize);
-	fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize);
+	fem1 = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, nodes);
+	fem2 = computeFixedEndMomentMomentLoad(moments, vecsize, beamsize, nodes);
+	fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, nodes);
+	fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 	fem = fem1 + fem2 + fem3 + fem4;
-
 	momentvector = sumNodeMoments(fem);
 
 	% Now we're almost done, we have
-	% Kr = M
-	% We need to kill the columns that are constrained, so we need to build an identity matrix where some elements are 0.
+	% Kr = R => r = K^-1R
+	% We need to kill the rows and columns that are constrained
 	[stiffness momentvector] = pruneFixedEnds(nodes, momentvector, stiffness);
 	rotations = inv(stiffness) * momentvector;
 
 	% We now have the angles for each point, with the fixed ends skipped
-	% Now we have S = Kr + M
-	% K is the local matrix, r is the known rotation. M is the local moment caused by external forces.
-	% We don't have a function yet that does this. For each beam, it must create a sum of moments in both ends.
+	% Zero rotations are added back into the vector and the moments are
+	% Computed using the local stiffness matrices.
 	rotations = addZerosToRotations(rotations, nodes);
 	ans = computeMomentsPerBeam(locals, fem, rotations, beams);
 end

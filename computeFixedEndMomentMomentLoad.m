@@ -1,4 +1,4 @@
-function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize)
+function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize, nodes)
 	%{
 		The fomula for fixed end point loads:
 
