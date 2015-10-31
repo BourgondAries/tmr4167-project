@@ -1,4 +1,4 @@
-function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize)
+function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize)
 	%{
 		The fomula for fixed end point loads:
 
@@ -14,8 +14,9 @@ function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize)
 		To accomplish this, we can use a BeamLoad plus another triangular load. Or we create
 		two triangular loads. Then we have no dual dependency.
 	%}
-	loadvec = zeros(vecsize, 1);
+	loadvec = zeros(vecsize, 1, beamsize);
 	for i = 1:size(incloads)
+		beamid = incloads(i, 2);
 		length = incloads(i, 9);
 		node1 = incloads(i, 5);
 		node2 = incloads(i, 6);
@@ -32,13 +33,13 @@ function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize)
 		end
 		L = length;
 		% Segment the first load
-		loadvec(node1) = loadvec(node1) + ...
+		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			-q1*L^2/20;
-		loadvec(node2) = loadvec(node2) + ...
+		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
 			q1*L^2/30;
-		loadvec(node1) = loadvec(node1) + ...
+		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			-q2*L^2/30;
-		loadvec(node2) = loadvec(node2) + ...
+		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
 			q2*L^2/20;
 	end
 end

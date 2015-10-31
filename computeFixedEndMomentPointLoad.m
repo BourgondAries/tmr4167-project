@@ -1,4 +1,4 @@
-function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize)
+function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize)
 	%{
 		The fomula for fixed end point loads:
 
@@ -11,8 +11,9 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize)
 
 		Gives -Pab^2/L^2 left, and Pa^2b/L^2 to the right
 	%}
-	loadvec = zeros(vecsize, 1);
+	loadvec = zeros(vecsize, 1, beamsize);
 	for i = 1:size(ploads)
+		beamid = ploads(i, 2);
 		length = ploads(i, 11);
 		distance = ploads(i, 6);
 		px = ploads(i, 3);
@@ -47,9 +48,9 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize)
 		L = length;
 		a = distance;
 		b = L - a;
-		loadvec(node1) = loadvec(node1) + ...
+		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			neg * a * b ^ 2 / L ^ 2;
-		loadvec(node2) = loadvec(node2) + ...
+		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
 			-neg .* a .^ 2 .* b ./ L .^ 2;
 	end
 end

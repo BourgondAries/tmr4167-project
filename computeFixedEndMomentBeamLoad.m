@@ -1,4 +1,4 @@
-function [loadvec] = computeFixedEndMomentBeamLoad(ploads, vecsize)
+function [loadvec] = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize)
 	%{
 		The fomula for fixed end point loads:
 
@@ -11,21 +11,22 @@ function [loadvec] = computeFixedEndMomentBeamLoad(ploads, vecsize)
 
 		Gives -Pab^2/L^2 left, and Pa^2b/L^2 to the right
 	%}
-	loadvec = zeros(vecsize, 1);
-	for i = 1:size(ploads)
-		length = ploads(i, 10);
-		qx = ploads(i, 3);
+	loadvec = zeros(vecsize, 1, beamsize);
+	for i = 1:size(qloads)
+		beamid = qloads(i, 2);
+		length = qloads(i, 10);
+		qx = qloads(i, 3);
 
-		qy = ploads(i, 4);  % Always zero
+		qy = qloads(i, 4);  % Always zero
 		assert(qy == 0);
 
-		qz = ploads(i, 5);
-		node1 = ploads(i, 6);
-		node2 = ploads(i, 7);
+		qz = qloads(i, 5);
+		node1 = qloads(i, 6);
+		node2 = qloads(i, 7);
 
 		% The vectors are already normalized.
-		dx = ploads(i, 8);
-		dz = ploads(i, 9);
+		dx = qloads(i, 8);
+		dz = qloads(i, 9);
 
 		% Our vector may project onto a beam.
 		% That projection is ignored.
@@ -44,9 +45,9 @@ function [loadvec] = computeFixedEndMomentBeamLoad(ploads, vecsize)
 			loadvec(node2) = 0;
 		end
 		L = length;
-		loadvec(node1) = loadvec(node1) + ...
+		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			neg * L ^ 2 / 12;
-		loadvec(node2) = loadvec(node2) + ...
+		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
 			-neg * L ^ 2 / 12;
 	end
 end

@@ -19,27 +19,27 @@ function [ans] = enter()
 	incloads = assignNodesToLoads(incload, beams);
 	moments = assignNodesToLoads(moments, beams);
 
+
 	% Compute the fixed end moments of each type of load
 	vecsize = max(nodes(:, 1));
-	fem = computeFixedEndMomentPointLoad(ploads, vecsize);
-	fem2 = computeFixedEndMomentMomentLoad(moments, vecsize);
-	fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize);
-	fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize);
-	fem = fem + fem2 + fem3 + fem4;
+	beamsize = max(beams(:, 1));
+	fem1 = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize);
+	fem2 = computeFixedEndMomentMomentLoad(moments, vecsize, beamsize);
+	fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize);
+	fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize);
+	fem = fem1 + fem2 + fem3 + fem4;
 
-	ans = beams;
-
-	return;
+	momentvector = sumNodeMoments(fem);
 
 	% Now we're almost done, we have
 	% Kr = M
 	% We need to kill the columns that are constrained, so we need to build an identity matrix where some elements are 0.
-	[stiffness fem] = pruneFixedEnds(nodes, fem, stiffness);
-	rotations = inv(stiffness) * fem;
+	[stiffness momentvector] = pruneFixedEnds(nodes, momentvector, stiffness);
+	rotations = inv(stiffness) * momentvector;
 
 	% We now have the angles for each point, with the fixed ends skipped
 	% Now we have S = Kr + M
 	% K is the local matrix, r is the known rotation. M is the local moment caused by external forces.
 	% We don't have a function yet that does this. For each beam, it must create a sum of moments in both ends.
-	ans = ploads;
+	ans = rotations;
 end
