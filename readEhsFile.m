@@ -1,4 +1,4 @@
-function [nodes beams materials pipes boxes beamloads nodeloads incloads moments] = lesinput()
+function [nodes beams materials pipes boxes beamloads nodeloads incloads moments] = readEhsFile(filename)
 	% The grammar is LL(1), implemented by a simple hand-written parser.
 	% The comment preprocessor is embedded due to its simplicity.
 	% Comments are lines starting with a '#' character.
@@ -28,7 +28,7 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads moments
 	moments = [];
 
 	% Ew! Impure IO! Needs to be removed, input ought to be a string.
-	fid = fopen('structure1.ehs','r');
+	fid = fopen(filename,'r');
 
 	% Sort the input according to its lookahead
 	line = fgets(fid);

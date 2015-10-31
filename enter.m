@@ -1,5 +1,5 @@
 function [] = enter()
-	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = lesinput();
+	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structure1.ehs');
 
 	conn = constructConnectivityMatrix(beams);
 	geoms = createGeometries(pipes, boxes);
