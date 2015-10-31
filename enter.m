@@ -41,5 +41,7 @@ function [ans] = enter()
 	% Now we have S = Kr + M
 	% K is the local matrix, r is the known rotation. M is the local moment caused by external forces.
 	% We don't have a function yet that does this. For each beam, it must create a sum of moments in both ends.
+	rotations = addZerosToRotations(rotations, nodes);
+	ans = computeMomentsPerBeam(locals, fem, rotations);
 	ans = rotations;
 end
