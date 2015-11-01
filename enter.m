@@ -44,5 +44,8 @@ function [ans] = enter()
 	% Zero rotations are added back into the vector and the moments are
 	% Computed using the local stiffness matrices.
 	rotations = addZerosToRotations(rotations, nodes);
-	ans = computeMomentsPerBeam(locals, fem, rotations, beams);
+	endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
+	moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
+	moments = moments + computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
+	ans = [endmoments; transpose(moments)];
 end
