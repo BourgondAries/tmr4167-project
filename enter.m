@@ -1,8 +1,18 @@
 function [ans] = enter()
+	yieldStrength = 320 * 10^6;
 	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structure1.ehs');
-	yieldStrength = 320 * 10^6 * 0.7;
-	for i = 1:18
-		[h i] = pickIbeam(i);
+
+	pipeThickness = pipes(3);
+	ibeamCounter = 1;
+	while true
+		[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structure1.ehs');
+		[h i] = pickIbeam(ibeamCounter);
+		if h == 0
+			ans = 'NO SUITABLE SOLUTION!';
+			return;
+		end
+		pipes(3) = pipeThickness;
+
 		% Add information to the matrix.
 		conn = constructConnectivityMatrix(beams);
 		geoms = createGeometries(pipes, i);
@@ -53,10 +63,25 @@ function [ans] = enter()
 		momentsBeam = momentsBeam + computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
+		pipeThickness
 		% Check if the structure is yielding. If so; where?
-		% yieldingBeam = isYielding(allMoments, beams, yieldStrength);
-		ans = allMoments;
-		break;
-
+		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
+		if yieldingBeam ~= 0
+			if beams(yieldingBeam, 5) == 1
+				% Increase pipe thickness
+				pipeThickness = pipeThickness + pipeThickness * 0.1;
+			else
+				% Increase I profile
+				ibeamCounter = ibeamCounter + 1;
+				if ibeamCounter == 19
+					ibeamCounter = 1;
+					pipeThickness = pipeThickness + pipeThickness * 0.1;
+				end
+			end
+		else
+			pipeThickness
+			ans = ibeamCounter;
+			return;
+		end
 	end
 end
