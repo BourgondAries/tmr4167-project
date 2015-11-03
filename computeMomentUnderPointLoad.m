@@ -47,8 +47,7 @@ function [moment] = computeMomentUnderPointLoad(ploads, endmoments, beamsize)
 		P = -neg;
 		M_a = endmoments(1, i);
 		M_b = endmoments(2, i);
-
-		moment(ploads(i, 2)) = a*(P*b - M_a - M_b)/L + M_a;
+		moment(ploads(i, 2)) = -M_a*(L-a)+M_b*a*L;
 	end
 
 end

@@ -10,7 +10,7 @@ function [moment] = computeMomentUnderLinearLoad(incloads, endmoments, beamsize)
 		|---------------|
 
 	%}
-	moments = zeros(beamsize, 1);
+	moment = zeros(beamsize, 1);
 	for i = 1:size(incloads)
 		beamid = incloads(i, 2);
 		length = incloads(i, 9);
@@ -21,17 +21,12 @@ function [moment] = computeMomentUnderLinearLoad(incloads, endmoments, beamsize)
 		q2 = incloads(i, 4);
 
 		L = length;
-		P = -neg;
 		M_a = endmoments(1, i);
 		M_b = endmoments(2, i);
 
-
-		% So how do we proceed? Well, we have spaces 1/3 from each end.
-		% Both points have a different magnitude. We need to find the
-		% Sum(M_b) = M_a + M_b - q1*L/2 * 2/3L - q2*L/2 * L/3 + A_z * L = 0
-		% => -(M_a + M_b - q1*L/2 * 2/3L - q2*L/2 * L/3)/L = A_z
-		% A_z =
-		moment(incloads(i, 2)) =
+		constant = sqrt(3)/27;
+		middle = (-M_a + M_b) / 2;
+		moment(incloads(i, 2)) = (-constant*q1*L^2 - constant*q2*L^2) + middle;
 
 	end
 end
