@@ -12,6 +12,7 @@ function [moment] = computeMomentUnderPointLoad(ploads, endmoments, beamsize)
 		Sum(M_b) = M_b - P*b + M_a + V_a*L = 0
 		rearranged:
 		a*(P*b - M_a - M_b)/L = M_p
+		a*(P*b - M_a - M_b)/L + M_a = M_r
 		Observe how this implies that M_a and M_b will be the end moments.
 	%}
 
