@@ -18,4 +18,6 @@ function [h i] = pickIbeam(n)
 	elseif n == 17 h = 275; i = 671.2 * 10 ^ -6;
 	elseif n == 18 h = 300; i = 920.8 * 10 ^ -6;
 	else h = 0; i = 0; end
+	h = h / 1000;
+	i = i * 10 ^ (-12);
 end

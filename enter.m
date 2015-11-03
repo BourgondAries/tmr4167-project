@@ -5,7 +5,8 @@ function [ans] = enter()
 	pipeThickness = pipes(3);
 	ibeamCounter = 1;
 	while true
-		[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structure1.ehs');
+		[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = ...
+			readEhsFile('structure1.ehs');
 		[h i] = pickIbeam(ibeamCounter);
 		if h == 0
 			ans = 'NO SUITABLE SOLUTION!';
@@ -45,6 +46,8 @@ function [ans] = enter()
 		fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, nodes);
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
+		ans = fem;
+		return;
 		momentvector = sumNodeMoments(fem);
 
 		% Now we're almost done, we have
@@ -58,18 +61,22 @@ function [ans] = enter()
 		% Computed using the local stiffness matrices.
 		rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
+		ans = endmoments;
+		return;
 		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
 		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
 		momentsBeam = momentsBeam + computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
-		pipeThickness
+		ans = beams;
+		return;
 		% Check if the structure is yielding. If so; where?
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
 		if yieldingBeam ~= 0
 			if beams(yieldingBeam, 5) == 1
 				% Increase pipe thickness
 				pipeThickness = pipeThickness + pipeThickness * 0.1;
+				ibeamCounter = ibeamCounter + 1;
 			else
 				% Increase I profile
 				ibeamCounter = ibeamCounter + 1;

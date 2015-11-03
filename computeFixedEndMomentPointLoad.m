@@ -43,8 +43,8 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, n
 		b = L - a;
 
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
-			-neg * a * b ^ 2 / L ^ 2;
+			neg * a * b ^ 2 / L ^ 2;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
-			neg .* a .^ 2 .* b ./ L .^ 2;
+			-neg .* a .^ 2 .* b ./ L .^ 2;
 	end
 end
