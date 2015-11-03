@@ -46,8 +46,6 @@ function [ans] = enter()
 		fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, nodes);
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
-		ans = fem;
-		return;
 		momentvector = sumNodeMoments(fem);
 
 		% Now we're almost done, we have
@@ -61,8 +59,6 @@ function [ans] = enter()
 		% Computed using the local stiffness matrices.
 		rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
-		ans = endmoments;
-		return;
 		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
 		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
 		momentsBeam = momentsBeam + computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
