@@ -63,11 +63,12 @@ function [ans] = enter()
 		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
 		momentsBeam = momentsBeam + computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
-
-		ans = beams;
+		ans = allMoments;
 		return;
+
 		% Check if the structure is yielding. If so; where?
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
+		fprintf('%d\n', beams(yieldingBeam, 8));
 		if yieldingBeam ~= 0
 			if beams(yieldingBeam, 5) == 1
 				% Increase pipe thickness

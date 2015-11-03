@@ -39,6 +39,6 @@ function [moment] = computeMomentUnderBeamLoad(qloads, endmoments, beamsize)
 		M_a = endmoments(1, i);
 		M_b = endmoments(2, i);
 		middle = (-M_a + M_b) / 2;
-		moment(qloads(i, 2)) = neg*L^2/8 + (middle);
+		moment(qloads(i, 2)) = P*L^2/8 + middle;
 	end
 end
