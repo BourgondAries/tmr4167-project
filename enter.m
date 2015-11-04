@@ -17,16 +17,14 @@ function [ans] = enter()
 		% Add information to the matrix.
 		conn = constructConnectivityMatrix(beams);
 		geoms = createGeometries(pipes, i);
-		ans = geoms;
-		return;
 		beams = assignBeamLength(beams, nodes);
 		beams = assignBeamElasticity(beams, mats);
 		beams = assignBeamSecondMomentArea(beams, geoms);
-		ans = beams;
-		return;
 		beams = assignBeamVector(beams, nodes);
 		beams = assignBeamHeight(beams, pipes, h);
 
+		ans = beams;
+		return;
 		% Calculate all local stiffness matrices
 		locals = computeAllElementStiffnesses(beams);
 

@@ -1,8 +1,9 @@
 function beams = assignBeamHeight(beams, pipes, iheight)
 	to_add = [];
 	for i = 1:size(beams, 1)
-		if beams(i, 5) == 1
-			to_add = [to_add; pipes(2)];
+		if any(beams(i, 5) == pipes(:, 1))
+			mat = beams(i, 5);
+			to_add = [to_add; pipes(mat, 2)];
 		else
 			to_add = [to_add; iheight];
 		end
