@@ -1,12 +1,12 @@
 function [ans] = enter()
 	yieldStrength = 320 * 10^6;
-	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structure1.ehs');
+	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
 
 	pipeThickness = pipes(3);
 	ibeamCounter = 1;
 	while true
 		[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = ...
-			readEhsFile('structure1.ehs');
+			readEhsFile('structureEx.ehs');
 		[h i] = pickIbeam(ibeamCounter);
 		if h == 0
 			ans = 'NO SUITABLE SOLUTION!';
@@ -17,9 +17,13 @@ function [ans] = enter()
 		% Add information to the matrix.
 		conn = constructConnectivityMatrix(beams);
 		geoms = createGeometries(pipes, i);
+		ans = geoms;
+		return;
 		beams = assignBeamLength(beams, nodes);
 		beams = assignBeamElasticity(beams, mats);
 		beams = assignBeamSecondMomentArea(beams, geoms);
+		ans = beams;
+		return;
 		beams = assignBeamVector(beams, nodes);
 		beams = assignBeamHeight(beams, pipes, h);
 
@@ -46,7 +50,7 @@ function [ans] = enter()
 		fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, nodes);
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
-		momentvector = sumNodeMoments(fem);
+		momentvector = -sumNodeMoments(fem);
 
 		% Now we're almost done, we have
 		% Kr = R => r = K^-1R
@@ -59,11 +63,11 @@ function [ans] = enter()
 		% Computed using the local stiffness matrices.
 		rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
-		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
-		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
-		momentsBeam = momentsBeam + computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
-		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
-		allMoments(:, 5)
+		%moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
+		%momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
+		%momentsBeam = momentsBeam + ...
+			%computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
+		allMoments = [endmoments; ];%transpose(moments); transpose(momentsBeam)];
 
 		% Check if the structure is yielding. If so; where?
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
