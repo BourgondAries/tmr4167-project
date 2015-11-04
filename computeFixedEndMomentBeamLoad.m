@@ -33,12 +33,8 @@ function [loadvec] = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, no
 		projection = [dx dz] * [qx; qz];
 		q = [qx qz] - projection * [dx dz];
 		% Now to find out what direction the vector is perpendicular to. Is it positive to the left node? Or is it negative? How do we know this mathematically? Ah! We can use vector maths. Cross product! Let's try it out!
-		q(2)
-		dx
-		dz
 		neg = cross([q(1) 0 q(2)], [dx 0 dz]);
 		neg = neg(2);
-		neg
 		% If neg < 0, then we have that P is a clockwise moment around the least node.
 		% Gives Pab^2/L^2 left, and -Pa^2b/L^2 to the right
 		L = length;

@@ -47,8 +47,7 @@ function [ans] = enter()
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
 		momentvector = -sumNodeMoments(fem);
-		ans = momentvector;
-		return;
+		% momentvector is correct.
 
 		% Now we're almost done, we have
 		% Kr = R => r = K^-1R
@@ -65,8 +64,10 @@ function [ans] = enter()
 		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
 		momentsBeam = momentsBeam + ...
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
-		allMoments = [endmoments; ];%transpose(moments); transpose(momentsBeam)];
+		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
+		ans = allMoments;
+		return;
 		% Check if the structure is yielding. If so; where?
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
 		if yieldingBeam ~= 0
