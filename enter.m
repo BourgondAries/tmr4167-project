@@ -1,11 +1,11 @@
 function [ans] = enter()
 	yieldStrength = 320 * 10^6;
-	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
+	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
 
 	pipeThickness = pipes(3);
 	ibeamCounter = 1;
 	while true
-		[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = ...
+		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
 			readEhsFile('structureEx.ehs');
 		[h i] = pickIbeam(ibeamCounter);
 		if h == 0
@@ -23,8 +23,6 @@ function [ans] = enter()
 		beams = assignBeamVector(beams, nodes);
 		beams = assignBeamHeight(beams, pipes, h);
 
-		ans = beams;
-		return;
 		% Calculate all local stiffness matrices
 		locals = computeAllElementStiffnesses(beams);
 
@@ -49,6 +47,8 @@ function [ans] = enter()
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
 		momentvector = -sumNodeMoments(fem);
+		ans = momentvector;
+		return;
 
 		% Now we're almost done, we have
 		% Kr = R => r = K^-1R
@@ -61,10 +61,10 @@ function [ans] = enter()
 		% Computed using the local stiffness matrices.
 		rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
-		%moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
-		%momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
-		%momentsBeam = momentsBeam + ...
-			%computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
+		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
+		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
+		momentsBeam = momentsBeam + ...
+			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 		allMoments = [endmoments; ];%transpose(moments); transpose(momentsBeam)];
 
 		% Check if the structure is yielding. If so; where?

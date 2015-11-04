@@ -8,7 +8,6 @@ function [geometries] = createGeometries(pipes, ibeam)
 	%}
 	geometries = [];
 	prevmax = 0;
-	pipes
 	for i = 1:size(pipes, 1)
 		geometries = [geometries; i, computeSecondMomentOfArea(...
 			pipes(i, 2),...
