@@ -1,8 +1,8 @@
 function [ans] = enter()
-	yieldStrength = 320 * 10^6;
-	file = 'structure1.ehs';
+	file = 'structure2.ehs';
 	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile(file);
 
+	yieldStrength = mats(1, 4);
 	ans = 0;
 
 	pipeThickness = pipes(3);
