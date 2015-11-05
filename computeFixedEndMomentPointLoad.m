@@ -1,5 +1,5 @@
 
-% Beregner fastinnspenningsmomenter for punktlaster. 
+% Beregner fastinnspenningsmomenter for punktlaster.
 function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, nodes)
 	%{
 		Formelen for fastinnspenningsmomentene er:
@@ -13,7 +13,7 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, n
 
 		Gir -Pab^2/L^2 til venstre, og Pa^2b/L^2 til høyre.
 	%}
-	% Definerer en tom lastvektor. 
+	% Definerer en tom lastvektor.
     loadvec = zeros(vecsize, 1, beamsize);
 	for i = 1:size(ploads)
 		beamid = ploads(i, 2);
@@ -35,19 +35,20 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, n
 		% Vektoren kan bli projisert, dette ser vi bort fra.
 		projection = [dx dz] * [px; pz];
 		p = [px pz] - projection * [dx dz];
-		
-        % Vi ønsker å finne hvilken akse vektoren står normalt på. 
+
+        % Vi ønsker å finne hvilken akse vektoren står normalt på.
         % Bruker kryssproduktet til å finne det ut:
 		neg = cross([p(1) 0 p(2)], [dx 0 dz]);
 		neg = neg(2);
-		
-        % Hvis neg < 0, vil momentet gå med klokken rundt den
+
+        % Hvis neg < 0, vil momentet (kalt P) gå med klokken rundt den
 		% minste noden.
-		
-        % Gir Pab^2/L^2 til venstre, og -Pa^2b/L^2 til høyre. 
+
+        % Gir Pab^2/L^2 til venstre, og -Pa^2b/L^2 til høyre.
 		L = length;
 		a = distance;
 		b = L - a;
+
 
         % Setter opp lastvektor og regner ut momentene. 
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...

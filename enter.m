@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 1:2
+for filenumber = 3:3
 
 	% Åpne en fil som tilsvarer konstruksjonen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
@@ -135,6 +135,7 @@ for filenumber = 1:2
 			proper = {ibeamCounter pipeThickness allMoments};
 			pipeThickness = pipeThickness * 0.9;
 		end
+		break;
 	end
 
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
