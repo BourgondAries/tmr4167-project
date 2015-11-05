@@ -4,7 +4,7 @@ clear all;
 
 file = 'structure1.ehs';
 %-------leser inputfilen og strukturer informasjonen i matriser-------
-[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile(file);
+[nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
 
 % Henter ut flytespenning.
     yieldStrength = mats(1, 4) * 0.7;
@@ -16,8 +16,7 @@ file = 'structure1.ehs';
 
 
 for i = 1:100
-    [nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
-        readEhsFile(file);
+    [nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
 	%starter med første IPE-bjelke, definerer høyde og annet
 	%arealmoment til senere bruk.
     [h i] = pickIbeam(ibeamCounter);
@@ -29,7 +28,6 @@ for i = 1:100
     %Hvis spenningen er utenfor kravet, defineres en ny tykkelse for
     %rørtverrsnittet. Denne linjen brukes under iterering.
     pipes(3) = pipeThickness;
-
 
    %---------- Linjene under brukes til å lagre data i matrisene
    %definert over til senere bruk ----------------------------
