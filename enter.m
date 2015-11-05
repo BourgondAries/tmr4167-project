@@ -1,5 +1,6 @@
 function [ans] = enter()
-	file = 'structure2.ehs';
+	%leser inputfilen og strukturer informasjonen i matriser.
+	file = 'structure1.ehs';
 	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile(file);
 
 	yieldStrength = mats(1, 4) * 0.7;
@@ -7,6 +8,8 @@ function [ans] = enter()
 
 	pipeThickness = pipes(3);
 	ibeamCounter = 1;
+	%starter med første IPE-bjelke, definerer høyde og annet
+	%arealmoment til senere bruk.
 
 	for i = 1:100
 		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
@@ -15,16 +18,28 @@ function [ans] = enter()
 		if h == 0
 			ans = 'NO SUITABLE SOLUTION!';
 			return;
-		end
+        end
+
+        %Hvis spenningen er utenfor kravet, defineres en ny tykkelse for
+        %rørtverrsnittet.
 		pipes(3) = pipeThickness;
 
-		% Add information to the matrix.
+		% Legger til informasjon til matrisene.
+         %setter opp konnektivitetsmatrisen.
 		conn = constructConnectivityMatrix(beams);
+        %Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
 		geoms = createGeometries(pipes, i);
+        %Beregner lengde på hvert element.
 		beams = assignBeamLength(beams, nodes);
+        %Beregner bøyestivhet for elementene og lagrer informasjonen i
+        %matrisen: beams.
 		beams = assignBeamElasticity(beams, mats);
+        %Legger til en kolonne med andre arealmoment til matrisen beam for
+        %de ulike geometriene.
 		beams = assignBeamSecondMomentArea(beams, geoms);
+        %Definerer aksesystem og elementene som vektorer.
 		beams = assignBeamVector(beams, nodes);
+        %Legger til høyden på tverrsnittet for '
 		beams = assignBeamHeight(beams, pipes, h);
 
 		% Calculate all local stiffness matrices
