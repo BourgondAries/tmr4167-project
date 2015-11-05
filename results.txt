@@ -318,3 +318,6 @@ Tension:-11088609.0169
 Node:middle/max
 Moment:0
 Tension:0
+
+Pipe thickness: 1.478047e-03
+IPE: 3.000000e-01
