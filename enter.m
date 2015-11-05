@@ -141,4 +141,7 @@ for i = 1:100
 end
 
 text = createResultText(allMoments, totalShear, tension);
+fid = fopen('results.txt', 'w');
+fwrite(fid, text);
+fclose(fid);
 
