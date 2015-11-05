@@ -29,14 +29,13 @@ function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize
 		L = length;
 		% Deler opp lasten i to trekantlaster.
         % Beregner fastinnspenningsmomenter basert på formelen over.
-		q3 = q2 - q1;
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			-q1*L^2/20;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
 			q1*L^2/30;
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
-			-q3*L^2/30;
+			-q2*L^2/30;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
-			q3*L^2/20;
+			q2*L^2/20;
 	end
 end
