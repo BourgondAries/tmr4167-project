@@ -4,7 +4,7 @@ clear all;
 
 for filenumber = 1:3
 
-	% Åpne en fil som tilsvarer konstruksjonen.
+	% Åpne en fil som tilsvarer strukturen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
 	% -------leser inputfilen og strukturer informasjonen i matriser-------
 	[nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
@@ -94,7 +94,8 @@ for filenumber = 1:3
 		% Nullrotasjonene er lagt tilbake i vektoren slik at vi kan beregne
 		% endemoment for hvert knutepunkt.
 		% Momentene er beregnet ved bruk av de lokale stivhetsmatrisene.
-		rotations = addZerosToRotations(rotations, nodes);
+
+		% rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
 
 		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
@@ -147,5 +148,4 @@ for filenumber = 1:3
 	fclose(fid);
 	dlmwrite(strcat('rotations', num2str(filenumber), '.txt'), rotations);
 	dlmwrite(strcat('stiffness', num2str(filenumber), '.txt'), stiffness);
-
 end
