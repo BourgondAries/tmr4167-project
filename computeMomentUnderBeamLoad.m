@@ -1,4 +1,4 @@
-% Beregner fastinnspenningsmomenter ved jevnt fordelt last. 
+% Beregner midt-moment ved jevnt fordelt last. 
 function [moment] = computeMomentUnderBeamLoad(qloads, endmoments, beamsize)
 	%{
 		Formelen for fastinnpenningsmoment er:
@@ -8,7 +8,7 @@ function [moment] = computeMomentUnderBeamLoad(qloads, endmoments, beamsize)
 		|---------------|
 
 		a + b = L
-
+    
 	%}
 	moment = zeros(beamsize, 1);
 	for i = 1:size(qloads)
@@ -23,19 +23,21 @@ function [moment] = computeMomentUnderBeamLoad(qloads, endmoments, beamsize)
 		node1 = qloads(i, 6);
 		node2 = qloads(i, 7);
 
-		% The vectors are already normalized.
+		% Vektorene er allerede normalisert.
 		dx = qloads(i, 8);
 		dz = qloads(i, 9);
 
-		% Our vector may project onto a beam.
-		% That projection is ignored.
+		% En eventuell projeksjon ser vi bort fra. 
 		projection = [dx dz] * [qx; qz];
 		q = [qx qz] - projection * [dx dz];
-		% Now to find out what direction the vector is perpendicular to. Is it positive to the left node? Or is it negative? How do we know this mathematically? Ah! We can use vector maths. Cross product! Let's try it out!
+        
+		% For å finne retningen tar vi kryssproduktet og finner hvilken
+		% akse lastvektoren står normalt på.
 		neg = cross([q(1) 0 q(2)], [dx 0 dz]);
 		neg = neg(2);
 		L = length;
 		P = -neg;
+        
 		M_a = endmoments(1, i);
 		M_b = endmoments(2, i);
 		middle = (-M_a + M_b) / 2;
