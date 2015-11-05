@@ -6,10 +6,10 @@ NODE 4       1      0    1.5    1 1 1 1 0 1
 NODE 5       1      0    3      1 1 1 1 0 1
 #
 #    Elem ID np1 np2 material geom
-BEAM 1       1   2   1        1
-BEAM 2       2   3   1        1
-BEAM 3       2   4   1        1
-BEAM 4       4   5   1        1
+BEAM 1       1   2   1        2
+BEAM 2       2   3   1        2
+BEAM 3       2   4   1        2
+BEAM 4       4   5   1        2
 #
 #        matno E-mod     poiss yield     density
 MATERIAL 1     0.2E+12   0.3   0.3E+12

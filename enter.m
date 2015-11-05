@@ -2,7 +2,7 @@ function [ans] = enter()
 	file = 'structure2.ehs';
 	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile(file);
 
-	yieldStrength = mats(1, 4);
+	yieldStrength = mats(1, 4) * 0.7;
 	ans = 0;
 
 	pipeThickness = pipes(3);
@@ -91,4 +91,6 @@ function [ans] = enter()
 			ans = {ibeamCounter pipeThickness allMoments};
 		end
 	end
+
+	ans = createResultText(ans);
 end
