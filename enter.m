@@ -1,12 +1,13 @@
 function [ans] = enter()
 	yieldStrength = 320 * 10^6;
-	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
+	file = 'structure1.ehs';
+	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile(file);
 
 	pipeThickness = pipes(3);
 	ibeamCounter = 1;
 	while true
 		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
-			readEhsFile('structureEx.ehs');
+			readEhsFile(file);
 		[h i] = pickIbeam(ibeamCounter);
 		if h == 0
 			ans = 'NO SUITABLE SOLUTION!';
@@ -73,14 +74,14 @@ function [ans] = enter()
 		if yieldingBeam ~= 0
 			if beams(yieldingBeam, 5) == 1
 				% Increase pipe thickness
-				pipeThickness = pipeThickness + pipeThickness * 0.1;
+				pipeThickness = pipeThickness * 1.1;
 				ibeamCounter = ibeamCounter + 1;
 			else
 				% Increase I profile
 				ibeamCounter = ibeamCounter + 1;
 				if ibeamCounter == 27
 					ibeamCounter = 1;
-					pipeThickness = pipeThickness + pipeThickness * 0.1;
+					pipeThickness = pipeThickness * 1.1;
 				end
 			end
 		else

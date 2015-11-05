@@ -26,6 +26,6 @@ function [h i] = pickIbeam(n)
 	elseif n == 25 h = 950; i = 4118.68 * 10 ^ 6;
 	elseif n == 26 h = 1000; i = 4707.73* 10 ^ 6;
 	else h = 0; i = 0; end
-	h = h / 1000;
+	h = h / 2000;
 	i = i * 10 ^ (-12);
 end

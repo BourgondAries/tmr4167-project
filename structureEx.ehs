@@ -17,7 +17,7 @@ BEAM 7       4   5   1        4
 #        matno E-mod     poiss yield     density
 MATERIAL 1     0.210E+12 0.3   0.300E+09 0.7850E+04
 #
-# Let I = 200 * 10 ^ 6 mm^4 = 200 * 10 ^ -6 m^4
+# Let I = 200 * 10^6 mm^4 = 200 * 10 ^ -6 m^4
 #    Geom ID  Do    Thick
 PIPE 1        0.25  0.00417793546297124
 PIPE 2        0.25  0.00597267270658239

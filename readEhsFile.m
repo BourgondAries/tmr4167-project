@@ -45,8 +45,6 @@ function [nodes beams materials pipes beamloads nodeloads incloads moments] = re
 				materials = [materials; quantify];
 			elseif strcmp(ll, 'PIPE')
 				pipes = [pipes; quantify];
-			elseif strcmp(ll, 'BOX')
-				boxes = [boxes; quantify];
 			elseif strcmp(ll, 'BEAMLOAD')
 				beamloads = [beamloads; quantify];
 			elseif strcmp(ll, 'NODELOAD')
