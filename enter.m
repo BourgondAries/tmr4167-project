@@ -67,8 +67,6 @@ function [ans] = enter()
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
-		ans = allMoments;
-		return;
 		% Check if the structure is yielding. If so; where?
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
 		if yieldingBeam ~= 0
