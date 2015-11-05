@@ -4,7 +4,7 @@ clear all;
 
 for filenumber = 1:2
 
-	% Åpne en fil som tilsvarer strukturen.
+	% Åpne en fil som tilsvarer konstruksjonen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
 	% -------leser inputfilen og strukturer informasjonen i matriser-------
 	[nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
