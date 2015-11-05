@@ -46,11 +46,11 @@ for i = 1:100
     beams = assignBeamLength(beams, nodes);
 
     % Beregner bøyestivhet for elementene og lagrer informasjonen i
-    %matrisen: beams.
+    % matrisen: beams.
     beams = assignBeamElasticity(beams, mats);
 
     % Legger til en kolonne med andre arealmoment til matrisen beam for
-    %de ulike geometriene.
+    % de ulike geometriene.
     beams = assignBeamSecondMomentArea(beams, geoms);
 
     % Definerer aksesystem og elementene som vektorer.
