@@ -6,40 +6,40 @@ for filenumber = 1:2
 
 	% Åpne en fil som tilsvarer strukturen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
-	%-------leser inputfilen og strukturer informasjonen i matriser-------
+	% -------leser inputfilen og strukturer informasjonen i matriser-------
 	[nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
 
 	% Henter ut flytespenning.
 	yieldStrength = mats(1, 4) * 0.7;
-	%starter med første IPE-bjelke, definerer høyde og annet
+	% starter med første IPE-bjelke, definerer høyde og annet
 	pipeThickness = pipes(3);
-	%arealmoment til senere bruk.
+	% arealmoment til senere bruk.
 	ibeamCounter = 1;
 
 
 	for i = 1:100
 		[nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
-		%starter med første IPE-bjelke, definerer høyde og annet
-		%arealmoment til senere bruk.
+		% starter med første IPE-bjelke, definerer høyde og annet
+		% arealmoment til senere bruk.
 		[h i] = pickIbeam(ibeamCounter);
 		if h == 0
 			proper = 'NO SUITABLE SOLUTION!';
 			return;
 		end
 
-		%Hvis spenningen er utenfor kravet, defineres en ny tykkelse for
-		%rørtverrsnittet. Denne linjen brukes under iterering.
+		% Hvis spenningen er utenfor kravet, defineres en ny tykkelse for
+		% rørtverrsnittet. Denne linjen brukes under iterering.
 		pipes(3) = pipeThickness;
 
-		 %---------- Linjene under brukes til å lagre data i matrisene
-		 %definert over til senere bruk ----------------------------
+		 % ---------- Linjene under brukes til å lagre data i matrisene
+		 % definert over til senere bruk ----------------------------
 		 % Setter opp konnektivitetsmatrisen.
 		conn = constructConnectivityMatrix(beams);
 
 		% Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
 		geoms = createGeometries(pipes, i);
 
-		%Beregner lengde på hvert element.
+		% Beregner lengde på hvert element.
 		beams = assignBeamLength(beams, nodes);
 
 		% Beregner bøyestivhet for elementene og lagrer informasjonen i
@@ -72,7 +72,7 @@ for filenumber = 1:2
 		moments = assignNodesToLoads(moments, beams);
 
 
-		%---- Beregner fastinnspenningsmomenter for hver type last----
+		% ---- Beregner fastinnspenningsmomenter for hver type last----
 		vecsize = max(nodes(:, 1));
 		beamsize = max(beams(:, 1));
 		fem1 = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, nodes);
@@ -82,7 +82,7 @@ for filenumber = 1:2
 		fem = fem1 + fem2 + fem3 + fem4;
 		momentvector = -sumNodeMoments(fem);
 
-		%-------- Løser likningssettet --------------------------
+		% -------- Løser likningssettet --------------------------
 		% Kr = R => r = K^-1R
 		% Setter inn randbetingelser for fast innspent slik at rotasjonene
 		% her blir null.
@@ -130,7 +130,7 @@ for filenumber = 1:2
 				end
 			end
 		else
-			fprintf('%d %i\n', ...
+			fprintf('% d % i\n', ...
 				pipeThickness, ibeamCounter);
 			proper = {ibeamCounter pipeThickness allMoments};
 			pipeThickness = pipeThickness * 0.9;
@@ -140,7 +140,7 @@ for filenumber = 1:2
 	text = createResultText(allMoments, totalShear, tension);
 	fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');
 	fwrite(fid, text);
-	fwrite(fid, sprintf('\nPipe thickness: %d\nIPE: %d\n', pipeThickness, h*2));
+	fwrite(fid, sprintf('\nPipe thickness: % d\nIPE: % d\n', pipeThickness, h*2));
 	fclose(fid);
 	dlmwrite(strcat('rotations', num2str(filenumber), '.txt'), rotations);
 	dlmwrite(strcat('stiffness', num2str(filenumber), '.txt'), stiffness);
