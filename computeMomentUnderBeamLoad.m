@@ -1,4 +1,4 @@
-% Beregner fastinnspenningsmomenter ved jevnt fordelt last. 
+% Beregner fastinnspenningsmomenter ved jevnt fordelt last.
 function [moment] = computeMomentUnderBeamLoad(qloads, endmoments, beamsize)
 	%{
 		Formelen for fastinnpenningsmoment er:

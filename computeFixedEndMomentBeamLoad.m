@@ -16,12 +16,12 @@ function [loadvec] = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, no
 	for i = 1:size(qloads)
 		beamid = qloads(i, 2);
 		length = qloads(i, 10);
-        
+
 		qx = qloads(i, 3);  % Vindlast i x-retning
 		qy = qloads(i, 4);  % Ingen last i y-retning.
 		assert(qy == 0);
 
-		qz = qloads(i, 5);  % Fordelte laster i z-retning. 
+		qz = qloads(i, 5);  % Fordelte laster i z-retning.
 		node1 = qloads(i, 6);
 		node2 = qloads(i, 7);
 
@@ -41,7 +41,7 @@ function [loadvec] = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, no
 		neg = -neg(2);
 		% Hvis neg < 0, vil momentet (kalt P) gå med klokken rundt den
 		% minste noden.
-		
+
         % Gir -qL^/12 til venstre, og qL^/12 to til høyre.
 		L = length;
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
