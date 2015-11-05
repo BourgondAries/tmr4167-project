@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 1:2
+for filenumber = 3:3
 
 	% Åpne en fil som tilsvarer strukturen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
@@ -80,7 +80,7 @@ for filenumber = 1:2
 		fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, nodes);
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
-		momentvector = sumNodeMoments(fem);
+		momentvector = -sumNodeMoments(fem);
 
 		% -------- Løser likningssettet --------------------------
 		% Kr = R => r = K^-1R
@@ -135,6 +135,7 @@ for filenumber = 1:2
 			proper = {ibeamCounter pipeThickness allMoments};
 			pipeThickness = pipeThickness * 0.9;
 		end
+		break;
 	end
 
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
