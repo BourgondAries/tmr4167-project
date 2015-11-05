@@ -1,26 +1,42 @@
 function [ans] = enter()
-	yieldStrength = 320 * 10^6;
-	[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
+    %leser inputfilen og strukturer informasjonen i matriser.
+	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
 
-	pipeThickness = pipes(3);
+	
+    pipeThickness = pipes(3);
 	ibeamCounter = 1;
 	while true
-		[nodes, beams, mats, pipes, boxes, qloads, ploads, incload, moments] = ...
+		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
 			readEhsFile('structureEx.ehs');
+        
+        %starter med første IPE-bjelke, definerer høyde og annet
+        %arealmoment til senere bruk.
 		[h i] = pickIbeam(ibeamCounter);
 		if h == 0
 			ans = 'NO SUITABLE SOLUTION!';
 			return;
-		end
+        end
+        
+        %Hvis spenningen er utenfor kravet, defineres en ny tykkelse for
+        %rørtverrsnittet.
 		pipes(3) = pipeThickness;
 
-		% Add information to the matrix.
-		conn = constructConnectivityMatrix(beams);
-		geoms = createGeometries(pipes, i);
+		% Legger til informasjon til matrisene.
+         %setter opp konnektivitetsmatrisen.
+		conn = constructConnectivityMatrix(beams); 
+        %Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
+		geoms = createGeometries(pipes, i);  
+        %Beregner lengde på hvert element.
 		beams = assignBeamLength(beams, nodes);
+        %Beregner bøyestivhet for elementene og lagrer informasjonen i
+        %matrisen: beams.
 		beams = assignBeamElasticity(beams, mats);
+        %Legger til en kolonne med andre arealmoment til matrisen beam for
+        %de ulike geometriene. 
 		beams = assignBeamSecondMomentArea(beams, geoms);
+        %Definerer aksesystem og elementene som vektorer.
 		beams = assignBeamVector(beams, nodes);
+        %Legger til høyden på tverrsnittet for '
 		beams = assignBeamHeight(beams, pipes, h);
 
 		ans = beams;
