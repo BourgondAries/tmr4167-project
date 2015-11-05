@@ -12,7 +12,7 @@ for filenumber = 1:2
 	% Henter ut flytespenning.
 	yieldStrength = mats(1, 4) * 0.7;
 	% starter med første IPE-bjelke, definerer høyde og annet
-	pipeThickness = pipes(3);
+	pipeThickness = pipes(1, 3);
 	% arealmoment til senere bruk.
 	ibeamCounter = 1;
 
@@ -137,7 +137,7 @@ for filenumber = 1:2
 		end
 	end
 
-	text = createResultText(allMoments, totalShear, tension);
+	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
 	fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');
 	fwrite(fid, text);
 	fwrite(fid, sprintf('\nPipe thickness: % d\nIPE: % d\n', pipeThickness, h*2));
