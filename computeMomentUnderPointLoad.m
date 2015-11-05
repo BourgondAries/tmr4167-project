@@ -10,6 +10,9 @@ function [moment] = computeMomentUnderPointLoad(ploads, endmoments, beamsize)
 
 		The moments at the edges need to be zero:
 		Sum(M_b) = M_b - P*b + M_a + V_a*L = 0
+		V_a = (-M_b - M_a + P*b)/L
+		Sum(x) = M_a + V_a*a + M = 0
+		M = -M_a - V_a*a
 		rearranged:
 		a*(P*b - M_a - M_b)/L = M_p
 		a*(P*b - M_a - M_b)/L + M_a = M_r
@@ -47,7 +50,9 @@ function [moment] = computeMomentUnderPointLoad(ploads, endmoments, beamsize)
 		P = -neg;
 		M_a = endmoments(1, i);
 		M_b = endmoments(2, i);
-		moment(ploads(i, 2)) = -M_a*(L-a)+M_b*a*L;
+		V_a = (-M_b - M_a + P*b)/L;
+		M = -M_a - V_a*a;
+		moment(ploads(i, 2)) = M;
 	end
 
 end

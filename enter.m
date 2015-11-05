@@ -2,15 +2,23 @@ function [ans] = enter()
     %leser inputfilen og strukturer informasjonen i matriser.
 	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
 
+	yieldStrength = 320 * 10^6;
+	file = 'structure1.ehs';
+
+	ans = 0;
+
 	
     pipeThickness = pipes(3);
 	ibeamCounter = 1;
-	while true
-		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
-			readEhsFile('structureEx.ehs');
-        
+
+	
         %starter med første IPE-bjelke, definerer høyde og annet
         %arealmoment til senere bruk.
+
+
+	for i = 1:100
+		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
+			readEhsFile(file);
 		[h i] = pickIbeam(ibeamCounter);
 		if h == 0
 			ans = 'NO SUITABLE SOLUTION!';
@@ -39,8 +47,6 @@ function [ans] = enter()
         %Legger til høyden på tverrsnittet for '
 		beams = assignBeamHeight(beams, pipes, h);
 
-		ans = beams;
-		return;
 		% Calculate all local stiffness matrices
 		locals = computeAllElementStiffnesses(beams);
 
@@ -65,6 +71,7 @@ function [ans] = enter()
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
 		momentvector = -sumNodeMoments(fem);
+		% momentvector is correct.
 
 		% Now we're almost done, we have
 		% Kr = R => r = K^-1R
@@ -77,31 +84,31 @@ function [ans] = enter()
 		% Computed using the local stiffness matrices.
 		rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
-		%moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
-		%momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
-		%momentsBeam = momentsBeam + ...
-			%computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
-		allMoments = [endmoments; ];%transpose(moments); transpose(momentsBeam)];
+		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
+		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
+		momentsBeam = momentsBeam + ...
+			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
+		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
 		% Check if the structure is yielding. If so; where?
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
 		if yieldingBeam ~= 0
 			if beams(yieldingBeam, 5) == 1
 				% Increase pipe thickness
-				pipeThickness = pipeThickness + pipeThickness * 0.1;
-				ibeamCounter = ibeamCounter + 1;
+				pipeThickness = pipeThickness * 1.1;
 			else
 				% Increase I profile
 				ibeamCounter = ibeamCounter + 1;
 				if ibeamCounter == 27
 					ibeamCounter = 1;
-					pipeThickness = pipeThickness + pipeThickness * 0.1;
+					pipeThickness = pipeThickness * 1.1;
 				end
 			end
 		else
-			pipeThickness
-			ans = ibeamCounter;
-			return;
+			fprintf('%d %i\n', ...
+				pipeThickness, ibeamCounter);
+			pipeThickness = pipeThickness * 0.9;
+			ans = {ibeamCounter pipeThickness allMoments};
 		end
 	end
 end

@@ -18,6 +18,7 @@ function [beams] = assignBeamVector(beams, nodes)
 				end
 			end
 		end
+		l = beams(i, 6);
 		to_add = [to_add; -dx -dy];
 	end
 	beams = [beams to_add];

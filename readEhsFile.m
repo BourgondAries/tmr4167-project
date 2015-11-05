@@ -1,4 +1,4 @@
-function [nodes beams materials pipes boxes beamloads nodeloads incloads moments] = readEhsFile(filename)
+function [nodes beams materials pipes beamloads nodeloads incloads moments] = readEhsFile(filename)
 	% The grammar is LL(1), implemented by a simple hand-written parser.
 	% The comment preprocessor is embedded due to its simplicity.
 	% Comments are lines starting with a '#' character.
@@ -10,7 +10,6 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads moments
 	%  | 'BEAM' elem_id node1 node2 material geometry
 	%  | 'MISOIEP material_id e_modulus poisson_modulus yield_strength density
 	%  | 'PIPE' geometry_id do thickness
-	%  | 'BOX' geometry_id ih oh iw ow
 	%  | 'BEAMLOAD' case elem qx qy qz
 	%  | 'NODELOAD' case elem px py pz distance
 	%  | 'INCLOAD' case elem begin end
@@ -21,7 +20,6 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads moments
 	beams = [];
 	materials = [];
 	pipes = [];
-	boxes = [];
 	beamloads = [];
 	nodeloads = [];
 	incloads = [];
@@ -47,8 +45,6 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads moments
 				materials = [materials; quantify];
 			elseif strcmp(ll, 'PIPE')
 				pipes = [pipes; quantify];
-			elseif strcmp(ll, 'BOX')
-				boxes = [boxes; quantify];
 			elseif strcmp(ll, 'BEAMLOAD')
 				beamloads = [beamloads; quantify];
 			elseif strcmp(ll, 'NODELOAD')
@@ -72,7 +68,6 @@ function [nodes beams materials pipes boxes beamloads nodeloads incloads moments
 	beams = cell2mat(beams);
 	materials = cell2mat(materials);
 	pipes = cell2mat(pipes);
-	boxes = cell2mat(boxes);
 	beamloads = cell2mat(beamloads);
 	nodeloads = cell2mat(nodeloads);
 	incloads = cell2mat(incloads);
