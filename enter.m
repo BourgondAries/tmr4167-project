@@ -3,9 +3,12 @@ function [ans] = enter()
 	file = 'structure1.ehs';
 	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile(file);
 
+	ans = 0;
+
 	pipeThickness = pipes(3);
 	ibeamCounter = 1;
-	while true
+
+	for i = 1:100
 		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
 			readEhsFile(file);
 		[h i] = pickIbeam(ibeamCounter);
@@ -73,7 +76,6 @@ function [ans] = enter()
 			if beams(yieldingBeam, 5) == 1
 				% Increase pipe thickness
 				pipeThickness = pipeThickness * 1.1;
-				ibeamCounter = ibeamCounter + 1;
 			else
 				% Increase I profile
 				ibeamCounter = ibeamCounter + 1;
@@ -83,9 +85,10 @@ function [ans] = enter()
 				end
 			end
 		else
-			pipeThickness
-			ans = ibeamCounter;
-			return;
+			fprintf('%d %i\n', ...
+				pipeThickness, ibeamCounter);
+			pipeThickness = pipeThickness * 0.9;
+			ans = {ibeamCounter pipeThickness allMoments};
 		end
 	end
 end
