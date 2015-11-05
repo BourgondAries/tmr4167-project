@@ -129,13 +129,14 @@ for i = 1:100
     else 
         fprintf('%d %i\n', ...
             pipeThickness, ibeamCounter);
-        pipeThickness = pipeThickness * 0.9;
         proper = {ibeamCounter pipeThickness allMoments};
+        pipeThickness = pipeThickness * 0.9;
     end
 end
 
 text = createResultText(allMoments, totalShear, tension);
 fid = fopen('results.txt', 'w');
 fwrite(fid, text);
+fwrite(fid, sprintf('\nPipe thickness: %d\nIPE: %d', pipeThickness, h*2));
 fclose(fid);
 
