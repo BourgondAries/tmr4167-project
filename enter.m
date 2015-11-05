@@ -10,11 +10,11 @@ for filenumber = 1:2
 	[nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
 
 	% Henter ut flytespenning.
-		yieldStrength = mats(1, 4) * 0.7;
-		%starter med første IPE-bjelke, definerer høyde og annet
-		pipeThickness = pipes(3);
-		%arealmoment til senere bruk.
-		ibeamCounter = 1;
+	yieldStrength = mats(1, 4) * 0.7;
+	%starter med første IPE-bjelke, definerer høyde og annet
+	pipeThickness = pipes(3);
+	%arealmoment til senere bruk.
+	ibeamCounter = 1;
 
 
 	for i = 1:100
