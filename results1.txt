@@ -8,7 +8,7 @@ Tension:-62204.8394
 ----------
 Node:2
 Moment:269.2181
-Shear:-3.6969
+Shear:-1.3636
 Tension:137465.7576
 ----------
 Node:middle/max
@@ -24,7 +24,7 @@ Tension:-44356.0916
 ----------
 Node:2
 Moment:244.0023
-Shear:-1.5668
+Shear:0.76652
 Tension:124590.2776
 ----------
 Node:middle/max
@@ -40,7 +40,7 @@ Tension:-48308.5027
 ----------
 Node:2
 Moment:411.9085
-Shear:-74.6496
+Shear:-72.3163
 Tension:210325.0555
 ----------
 Node:middle/max
@@ -56,7 +56,7 @@ Tension:-110031.7319
 ----------
 Node:2
 Moment:-75.4067
-Shear:236.4485
+Shear:238.7818
 Tension:-38503.4776
 ----------
 Node:middle/max
