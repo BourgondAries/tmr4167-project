@@ -1,3 +1,5 @@
+% Beregner lokale forskyvning (endemoment) basert på rotasjoner og lokale
+% stivhetsmatriser for hvert element. 
 function [moments] = computeMomentsPerBeam(localstiffnesses, fem, rotations, beams)
 	% We know there are only two points per fem, ideally, this should be optimized away.
 	% The current method will work.

@@ -2,7 +2,7 @@
 % Beregner fastinnspenningsmoment for lineært fordelte laster.
 function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes)
 	%{
-		The fomula for fixed end point loads:
+		Formelen for fastinnspenningsmoment er:
 
 		 q1              q2
 		a --------------- b
@@ -11,18 +11,21 @@ function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize
 		 VVVVVVVVVVVVVVV
 		|---------------|
 
-		Gives -qL^2/30 to the left, and qL^2/20 to the right. In our case, we're given
-		a non-triangular distribution. This means that we need to segment the distribution.
-		To accomplish this, we can use a BeamLoad plus another triangular load. Or we create
-		two triangular loads. Then we have no dual dependency.
+		Gir -qL^2/30 til venstre, og qL^2/20 til høyre. Vi velger å dele 
+        lasten i to slike trekantlaster. Totalverdien er da avhengige av
+        hverandre. 
 	%}
+    % Definerer en tom lastvektor. 
 	loadvec = zeros(vecsize, 1, beamsize);
 	for i = 1:size(incloads)
+        % Identifiserer hvilke noder og elementer som har lineært fordelte
+        % laster.
 		beamid = incloads(i, 2);
 		length = incloads(i, 9);
 		node1 = incloads(i, 5);
 		node2 = incloads(i, 6);
-		% Antar at lasten er perpendikulær.
+        
+		% Definerer lastintensiteten i hver ende av elementet som q1 og q2.
 		q1 = incloads(i, 3);
 		q2 = incloads(i, 4);
 

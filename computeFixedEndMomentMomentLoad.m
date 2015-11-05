@@ -2,7 +2,7 @@
 % Beregner fastinnspenningsmoment for påsatte endemoment. 
 function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize, nodes)
 	%{
-		The fomula for fixed end point loads:
+		Formel for fastinnspenningsmoment er:
 
 		       M
 		a -----|--------- b
@@ -11,8 +11,9 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize, 
 
 		a + b = L
 
-		Gives Mb(2a-b)/L^2 to the left and Ma(2b-a)/L^2 to the right
+		Gir Mb(2a-b)/L^2 til venstre og Ma(2b-a)/L^2 til høyre.
 	%}
+    % Definerer en tov lastvektor. 
 	loadvec = zeros(vecsize, 1, beamsize);
 	for i = 1:size(mloads)
 		beamid = mloads(i, 2);

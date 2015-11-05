@@ -1,7 +1,7 @@
+% Beregner fastinnspenningsmomenter ved jevnt fordelt last. 
 function [moment] = computeMomentUnderBeamLoad(qloads, endmoments, beamsize)
 	%{
-		The fomula for fixed end point loads:
-
+		Formelen for fastinnpenningsmoment er:
 		       q
 		a -----|--------- b
 		 VVVVVVVVVVVVVVV

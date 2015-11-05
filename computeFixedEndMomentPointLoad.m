@@ -2,7 +2,7 @@
 % Beregner fastinnspenningsmomenter for punktlaster.
 function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, nodes)
 	%{
-		The fomula for fixed end point loads:
+		Formelen for fastinnspenningsmomentene er:
 
 		       P
 		a -----|------- b
@@ -11,7 +11,7 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, n
 
 		a + b = L
 
-		Gives -Pab^2/L^2 left, and Pa^2b/L^2 to the right
+		Gir -Pab^2/L^2 til venstre, og Pa^2b/L^2 til høyre.
 	%}
 	% Definerer en tom lastvektor.
     loadvec = zeros(vecsize, 1, beamsize);
@@ -50,6 +50,7 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, n
 		b = L - a;
 
 
+        % Setter opp lastvektor og regner ut momentene. 
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			neg * a * b ^ 2 / L ^ 2;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
