@@ -1,3 +1,7 @@
+% Tabell over standard IPE-profiler.
+% Angir nummer i tabellen, høyde og annet arealmoment (I_y).
+% Vi har definert 26 forskjellige IPE-profiler.
+
 function [h i] = pickIbeam(n)
 	if n == 1 h = 80; i = 0.801 * 10 ^ 6;
 	elseif n == 2 h = 100; i = 1.71 * 10 ^ 6;

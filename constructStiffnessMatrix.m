@@ -1,3 +1,4 @@
+% Setter opp lokal stivhetsmatrise for hvert element.
 function [matrix] = constructStiffnessMatrix(connectivity, locals)
 	% Need to find the global matrix size by looking at the largest node.
 	n1 = max(connectivity(2, :));

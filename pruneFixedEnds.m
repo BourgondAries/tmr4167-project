@@ -1,8 +1,10 @@
-% Nuller kolonner og tilsvarende elementer der lastvektoren er 0.
+% Randbetingelser: Nuller kolonner og tilsvarende elementer der 
+% lastvektoren er 0 (i fast innspente opplager). 
 function [matrix, newmoment] = pruneFixedEnds(nodes, momentvec, stiffness)
-	% All we really care about is the boundary code for moment around the y axis (depth).
-	% We just remove the columns of the stiffness matrix, and remove any rows from the
-	% moment vector where it is zero.
+	
+    % Kun interessert i boundarycode for rotasjon om y-akse.
+	% Nuller ut alle kolonner og tilsvarende rader i stivhetsmatrisen
+	% der lastvektoren er null slik at likningssettet kan løses. 
 	remove = [];
 	zero = zeros(size(stiffness, 1), 1);
 	for i = 1:size(nodes, 1)
@@ -11,10 +13,14 @@ function [matrix, newmoment] = pruneFixedEnds(nodes, momentvec, stiffness)
 			% remove = [remove i];
 			stiffness(i, :) = zero;
 			stiffness(:, i) = transpose(zero);
+            
+            % Setter diagonalelementene lik 1. 
 			stiffness(i, i) = 1;
 			momentvec(i) = 0;
 		end
-	end
+    end
+    % Definerer momentvektor og stivhetsmatrise for elementene, brukes til
+    % å løse likningssettet. 
 	newmoment = momentvec;
 	matrix = stiffness;
 end
