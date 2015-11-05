@@ -9,8 +9,8 @@ function shear = computeLinearShear(incloads, beamsize)
 		q2 = incloads(i, 4);
 		L = length;
 
-		q1s = [q1*L/6 q1*L/3];
-		q2s = [q2*L/3 q2*L/6];
+		q1s = [q1*L/6 -q1*L/3];
+		q2s = [-q2*L/3 q2*L/6];
 		shear(beamid, :) = [q1s+q2s];
 	end
 end
