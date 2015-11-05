@@ -127,10 +127,8 @@ for i = 1:100
             end
         end
     else
-        fprintf('%d %i\n', ...
-            pipeThickness, ibeamCounter);
-        pipeThickness = pipeThickness * 0.9;
         proper = {ibeamCounter pipeThickness allMoments};
+				break;
     end
 end
 
