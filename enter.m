@@ -39,9 +39,6 @@ for i = 1:100
     % Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
     geoms = createGeometries(pipes, i);
 
-    % Beregner lengde på hvert element.
-    conn = constructConnectivityMatrix(beams);
-
     %Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
     geoms = createGeometries(pipes, i);
 
