@@ -1,9 +1,16 @@
+
+% Sjekker om elementet flyter. 
 function [where] = isYielding(tension, beams, yieldStrength)
-	% If the yield is at position 0, then nothing is yielding.
+	% Hvis den flyter i posisjon 0, ser vi bort fra flyt. 
 	where = 0;
-	for i = 1:size(tension, 2)
+        % Løkken kjører gjennom matrisen med momentene. 
+        % Beregner spenning for hvert element.
+		for i = 1:size(tension, 2)
 		stress = tension(:, i);
-		if any(abs(stress) > yieldStrength)
+        % Hvis over flytespenning i et av elementene --> returnerer
+        % spenningsverdi. 
+		
+        if any(abs(stress) > yieldStrength)
 			% fprintf('%i %d\n', i, max(stress));
 			where = i;
 			return;

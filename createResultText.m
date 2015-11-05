@@ -1,3 +1,4 @@
+% formatterer resultatfilen på en oversiktlig måte. 
 function text = createResultText(moments, shear, tension)
 	beam = 'Beam: ';
 	node = 'Node: ';

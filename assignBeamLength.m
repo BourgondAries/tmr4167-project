@@ -25,7 +25,8 @@ function [matrix] = assignBeamLength(beams, nodes)
 				end
 			end
         end
-        % Bruker Pytagoras for å beregne avstand.
+        % Bruker Pytagoras for å beregne avstand, gjelder da også for
+        % bjelker osm står på skrå. 
 		to_add(i) = sqrt(dx^2 + dy^2);
     end
     

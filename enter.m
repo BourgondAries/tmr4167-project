@@ -4,16 +4,16 @@ clear all;
 
 for filenumber = 11:11
 
-	% Åpne en fil som tilsvarer strukturen.
+	% Åpne en fil som tilsvarer konstruksjonen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
 	% -------leser inputfilen og strukturer informasjonen i matriser-------
 	[nodes beams mats pipes qloads ploads incload moments] = readEhsFile(file);
 
 	% Henter ut flytespenning.
 	yieldStrength = mats(1, 4) * 0.7;
-	% starter med første IPE-bjelke, definerer høyde og annet
+	% Definerer startverdi for dimensjoner: rørtykkelse gitt i inputfil,
+	% samt startverdi for IPE-profil gitt i egen tabell (pickIBeam.m).
 	pipeThickness = pipes(1, 3);
-	% arealmoment til senere bruk.
 	ibeamCounter = 1;
 
 
@@ -63,9 +63,9 @@ for filenumber = 11:11
 		% systemstivhetsmatrisen.
 		stiffness = constructStiffnessMatrix(conn, locals);
 
-		% Definerer fire forskjellige typer last.
+		% Definerer fire forskjellige typer last: punktlast, jevnt fordelt
+		% last, linært fordelt last og påsatt moment.
 		% Definerer hvilken bjelke lasten virker på.
-		% Defienrer bjelken som en vektor.
 		ploads = assignNodesToLoads(ploads, beams);
 		qloads = assignNodesToLoads(qloads, beams);
 		incloads = assignNodesToLoads(incload, beams);
@@ -86,6 +86,7 @@ for filenumber = 11:11
 		% Setter inn randbetingelser for fast innspent slik at rotasjonene
 		% her blir null.
 		[stiffness momentvector] = pruneFixedEnds(nodes, momentvector, stiffness);
+        % Løser likningssettet.
 		rotations = inv(stiffness) * momentvector;
 
 		% Vi har nå rotasjonen for hvert punkt i vektoren rotations, utenom
@@ -100,10 +101,16 @@ for filenumber = 11:11
 		momentsBeam = momentsBeam + ...
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 
-		momentShear = computeMomentShear(endmoments);
+		% ---------------- Beregning av skjærkrefter -------------------%
+        % Beregner skjærbidrag fra endemomenter.
+        momentShear = computeMomentShear(endmoments, beams);
+        % Beregner skjærbidrag fra punktlast.
 		pointShear = computePointShear(ploads, beamsize);
+        % Beregner skjærbidrag fra jevnt fordelt last.
 		beamShear = computeBeamShear(qloads, beamsize);
+        % Beregner skjærbidrag fra linært fordelt last.
 		linearShear = computeLinearShear(incloads, beamsize);
+        % Summerer opp totalt bidrat for hvertelement.
 		totalShear = momentShear + pointShear + beamShear + linearShear;
 
 		% allMoments gir endemoment for alle elementene.
@@ -130,6 +137,11 @@ for filenumber = 11:11
 				end
 			end
 		else
+        else % Hvis spenningen er innenfor området ønsker vi å optimalisere
+             % ved å redusere tykkelsen på rørprofilen så mye som mulig.
+
+             %fprintf('% d % i\n', ...
+				%pipeThickness, ibeamCounter);
 			proper = {ibeamCounter pipeThickness allMoments};
 			pipeThickness = pipeThickness * 0.9;
 		end
@@ -138,10 +150,14 @@ for filenumber = 11:11
 	allMoments
 
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
-	fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');
+
+    % Lagrer resultatene i en tekstfil.
+    fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');
 	fwrite(fid, text);
 	fwrite(fid, sprintf('\nPipe thickness: % d\nIPE: % d\n', pipeThickness, h*2));
 	fclose(fid);
-	dlmwrite(strcat('rotations', num2str(filenumber), '.txt'), rotations);
+
+	% Skriver ut rotasjonsvektor og stivhetsmatrise til bruk i rapporten.
+    dlmwrite(strcat('rotations', num2str(filenumber), '.txt'), rotations);
 	dlmwrite(strcat('stiffness', num2str(filenumber), '.txt'), stiffness);
 end
