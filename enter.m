@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 3:3
+for filenumber = 1:3
 
 	% Åpne en fil som tilsvarer strukturen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
@@ -96,6 +96,7 @@ for filenumber = 3:3
 		% Momentene er beregnet ved bruk av de lokale stivhetsmatrisene.
 		rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
+
 		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
 		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
 		momentsBeam = momentsBeam + ...
