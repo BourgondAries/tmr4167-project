@@ -9,12 +9,9 @@ function shear = computeMomentShear(endmoments, beams)
     % 
     t = 0;
 	for i = endmoments
-         t = t+1
+         t = t+1;
         L = beams(t,6);
 		shearVal = (i(1) + i(2)) / L;
 		shear = [shear; shearVal -shearVal];
     end
-    
-    shear
-    assert(false)
 end

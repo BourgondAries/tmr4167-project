@@ -35,9 +35,11 @@ function [moment] = computeMomentUnderLinearLoad(incloads, endmoments, beamsize)
 		M_b = endmoments(2, i);
 
         % Beregner momentet basert på formelen gitt over. 
-		constant = sqrt(3)/27;
 		middle = (-M_a + M_b) / 2;
-		moment(incloads(i, 2)) = (-constant*q1*L^2 - constant*q2*L^2) + middle;
+		moment(beamid) = -q1*L^2/8 - 1/24*(q2-q1)*L^2 + middle;
+		%moment(beamid) = (q2-q1)*L/6/L*(2*L^2-3*L^2/2+L^2/4) + (q2-q1)*L^2/8 + middle;
+		% moment(beamid) = -q2*L^2/8 + middle;
+
 
 	end
 end

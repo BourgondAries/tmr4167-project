@@ -12,8 +12,8 @@ Shear:-29.1667kN
 Tension:485503.7106kPa
 ----------
 Node:middle/max
-Moment:11.8056kNm
-Tension:589540.7217kPa
+Moment:0.69445kNm
+Tension:34679.0037kPa
 
 Beam:2
 ----------
@@ -28,8 +28,8 @@ Shear:45.8333kN
 Tension:-277431.2491kPa
 ----------
 Node:middle/max
-Moment:22.2222kNm
-Tension:1109723.8261kPa
+Moment:2.7778kNm
+Tension:138715.6246kPa
 
 Beam:3
 ----------
@@ -44,8 +44,8 @@ Shear:-99.3052kN
 Tension:1109717.1938kPa
 ----------
 Node:middle/max
-Moment:60.4165kNm
-Tension:3017053.4228kPa
+Moment:14.5833kNm
+Tension:728255.566kPa
 
 Beam:4
 ----------
@@ -60,8 +60,8 @@ Shear:-38.8885kN
 Tension:0kPa
 ----------
 Node:middle/max
-Moment:29.8609kNm
-Tension:1491178.8216kPa
+Moment:7.6388kNm
+Tension:381461.6278kPa
 
 Pipe thickness:  2.656140e-07
 IPE:  8.000000e-02

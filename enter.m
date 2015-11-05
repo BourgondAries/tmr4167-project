@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 1:3
+for filenumber = 1:4
 
 	% Åpne en fil som tilsvarer konstruksjonen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
@@ -71,7 +71,6 @@ for filenumber = 1:3
 		incloads = assignNodesToLoads(incload, beams);
 		moments = assignNodesToLoads(moments, beams);
 
-
 		% ---- Beregner fastinnspenningsmomenter for hver type last----
 		vecsize = max(nodes(:, 1));
 		beamsize = max(beams(:, 1));
@@ -95,16 +94,12 @@ for filenumber = 1:3
 		% Nullrotasjonene er lagt tilbake i vektoren slik at vi kan beregne
 		% endemoment for hvert knutepunkt.
 		% Momentene er beregnet ved bruk av de lokale stivhetsmatrisene.
-
-		% rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
 
 		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
 		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
 		momentsBeam = momentsBeam + ...
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
-		% allMoments gir endemoment for alle elementene.
-		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
 		% ---------------- Beregning av skjærkrefter -------------------%
         % Beregner skjærbidrag fra endemomenter.
@@ -118,11 +113,14 @@ for filenumber = 1:3
         % Summerer opp totalt bidrat for hvertelement. 
 		totalShear = momentShear + pointShear + beamShear + linearShear;
 
+		% allMoments gir endemoment for alle elementene.
+		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
+
 		tension = computeBendingTension(allMoments, beams);
 
 		% ---------------- Dimensjonering ---------------------------
 		% Sjekker om konstruksjonen flyter, og i så fall hvor.
-		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
+		yieldingBeam = isYielding(tension, beams, yieldStrength);
 		if yieldingBeam ~= 0
 			if beams(yieldingBeam, 5) == 1
 				% Øker tykkelse på rørprofilet.

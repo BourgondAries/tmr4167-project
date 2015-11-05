@@ -1,3 +1,4 @@
+
 % Beregner midt-moment ved jevnt fordelt last. 
 function [moment] = computeMomentUnderBeamLoad(qloads, endmoments, beamsize)
 	%{
