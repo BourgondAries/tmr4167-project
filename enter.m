@@ -131,13 +131,14 @@ for filenumber = 1:3
 				end
 			end
 		else
-			fprintf('% d % i\n', ...
-				pipeThickness, ibeamCounter);
+			%fprintf('% d % i\n', ...
+				%pipeThickness, ibeamCounter);
 			proper = {ibeamCounter pipeThickness allMoments};
 			pipeThickness = pipeThickness * 0.9;
 		end
-		break;
 	end
+
+	allMoments
 
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
 	fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');
