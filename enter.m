@@ -80,7 +80,7 @@ for filenumber = 1:2
 		fem3 = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, nodes);
 		fem4 = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes);
 		fem = fem1 + fem2 + fem3 + fem4;
-		momentvector = -sumNodeMoments(fem);
+		momentvector = sumNodeMoments(fem);
 
 		% -------- Løser likningssettet --------------------------
 		% Kr = R => r = K^-1R
