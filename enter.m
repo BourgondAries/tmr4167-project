@@ -137,6 +137,6 @@ end
 text = createResultText(allMoments, totalShear, tension);
 fid = fopen('results.txt', 'w');
 fwrite(fid, text);
-fwrite(fid, sprintf('\nPipe thickness: %d\nIPE: %d', pipeThickness, h));
+fwrite(fid, sprintf('\nPipe thickness: %d\nIPE: %d', pipeThickness, h*2));
 fclose(fid);
 
