@@ -10,8 +10,8 @@ function [geometries] = createGeometries(pipes, ibeam)
 	prevmax = 0;
 	for i = 1:size(pipes, 1)
 		geometries = [geometries; i, computeSecondMomentOfArea(...
-			pipes(i, 2),...
-			pipes(i, 2) - pipes(i, 3))];
+			pipes(i, 2)/2,...
+			pipes(i, 2)/2 - pipes(i, 3))];
 		prevmax = i;
 	end
 	geometries = [geometries; prevmax + 1, ibeam];
