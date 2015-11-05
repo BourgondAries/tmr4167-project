@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 1:4
+for filenumber = 10:10
 
 	% Åpne en fil som tilsvarer strukturen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
@@ -130,8 +130,6 @@ for filenumber = 1:4
 				end
 			end
 		else
-			%fprintf('% d % i\n', ...
-				%pipeThickness, ibeamCounter);
 			proper = {ibeamCounter pipeThickness allMoments};
 			pipeThickness = pipeThickness * 0.9;
 		end

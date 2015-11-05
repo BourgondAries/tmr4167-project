@@ -1,6 +1,6 @@
-#    Node ID X      Y    Z      Boundary code
-NODE 1       0.000  .000 .000   1 1 1 1 0 1
-NODE 2       1.000  .000 .000   1 1 1 1 0 1
+#    Node ID X       Y    Z      Boundary code
+NODE 1       0   .000 .000   1 1 1 1 1 1
+NODE 2       100.000 .000 .000   1 1 1 1 1 1
 #
 #    Elem ID np1 np2 material geom
 BEAM 1       1   2   1        2
@@ -12,6 +12,8 @@ MATERIAL 1     0.210E+12 0.3   0.320E+09 0.7850E+04
 PIPE     1        0.5   0.2
 #
 #        Load Case Elem ID begin   end
-INCLOAD  1         1       1.2E+03  1.2E+03
+INCLOAD  1         1       1.0E+03  1.1E+03
 #        Load Case Elem ID px        py pz        distance
-# NODELOAD 1         1       0         0  -1.2E+06  0.5
+# NODELOAD 1         1       0         0  -7.2E+03  25
+#      Load Case Elem ID Moment  Distance
+# MOMENT 1         1       10E+3 0

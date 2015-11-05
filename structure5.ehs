@@ -1,6 +1,6 @@
-#    Node ID X      Y    Z      Boundary code
-NODE 1       0.000  .000 .000   1 1 1 1 0 1
-NODE 2       1.000  .000 .000   1 1 1 1 0 1
+#    Node ID X       Y    Z      Boundary code
+NODE 1       0.000   .000 .000   1 1 1 1 1 1
+NODE 2       100.000 .000 .000   1 1 1 1 0 1
 #
 #    Elem ID np1 np2 material geom
 BEAM 1       1   2   1        2
