@@ -1,21 +1,19 @@
+%sletter alle variabler før start
+clear all
+clc
 function [ans] = enter()
-    %leser inputfilen og strukturer informasjonen i matriser.
+    %----leser inputfilen og strukturer informasjonen i matriser----
 	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
 
-	yieldStrength = 320 * 10^6;
 	file = 'structure1.ehs';
 
 	ans = 0;
-
-	
     pipeThickness = pipes(3);
 	ibeamCounter = 1;
 
 	
         %starter med første IPE-bjelke, definerer høyde og annet
         %arealmoment til senere bruk.
-
-
 	for i = 1:100
 		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
 			readEhsFile(file);
@@ -32,37 +30,37 @@ function [ans] = enter()
 		% Legger til informasjon til matrisene.
          %setter opp konnektivitetsmatrisen.
 		conn = constructConnectivityMatrix(beams); 
-        %Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
+        % Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
 		geoms = createGeometries(pipes, i);  
-        %Beregner lengde på hvert element.
+        % Beregner lengde på hvert element.
 		beams = assignBeamLength(beams, nodes);
-        %Beregner bøyestivhet for elementene og lagrer informasjonen i
+        % Beregner bøyestivhet for elementene og lagrer informasjonen i
         %matrisen: beams.
 		beams = assignBeamElasticity(beams, mats);
-        %Legger til en kolonne med andre arealmoment til matrisen beam for
+        % Legger til en kolonne med andre arealmoment til matrisen beam for
         %de ulike geometriene. 
 		beams = assignBeamSecondMomentArea(beams, geoms);
-        %Definerer aksesystem og elementene som vektorer.
+        % Definerer aksesystem og elementene som vektorer.
 		beams = assignBeamVector(beams, nodes);
-        %Legger til høyden på tverrsnittet for '
+        % Legger til høyden på tverrsnittet for '
 		beams = assignBeamHeight(beams, pipes, h);
 
-		% Calculate all local stiffness matrices
+		% Beregner lokale stivhetsmatriser for hvert element. 
 		locals = computeAllElementStiffnesses(beams);
 
-		% Use the local stiffnesses and the connectivity matrix to construct
-		% the system's stiffness matrix.
+		% Bruker lokale stivhetsmatriser for å beregne
+		% systemstivhetsmatrisen.
 		stiffness = constructStiffnessMatrix(conn, locals);
 
-		% Assign the two nodes associated with the loads on the specific beam.
-		% Also add the vector of the beam.
-		% This is used so that loads are correctly applied.
+		% Definerer fire forskjellige typer last.
+		% Definerer hvilken bjelke lasten virker på.
+		% Defienrer bjelken som en vektor.
 		ploads = assignNodesToLoads(ploads, beams);
 		qloads = assignNodesToLoads(qloads, beams);
 		incloads = assignNodesToLoads(incload, beams);
 		moments = assignNodesToLoads(moments, beams);
 
-		% Compute the fixed end moments of each type of load
+		% Beregner fastinnspenningsmomenter for hver type last.
 		vecsize = max(nodes(:, 1));
 		beamsize = max(beams(:, 1));
 		fem1 = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, nodes);
@@ -73,15 +71,18 @@ function [ans] = enter()
 		momentvector = -sumNodeMoments(fem);
 		% momentvector is correct.
 
-		% Now we're almost done, we have
+		% Deretter løse likningssettet:
 		% Kr = R => r = K^-1R
-		% We need to kill the rows and columns that are constrained
+		% Setter inn randbetingelser for fast innspent slik at rotasjonene
+		% her blir null.
 		[stiffness momentvector] = pruneFixedEnds(nodes, momentvector, stiffness);
 		rotations = inv(stiffness) * momentvector;
 
-		% We now have the angles for each point, with the fixed ends skipped
-		% Zero rotations are added back into the vector and the moments are
-		% Computed using the local stiffness matrices.
+		% Vi har nå rotasjonen for hvert punkt i vektoren rotations, utenom
+		% fast innspente opplager.
+		% Nullrotasjonene er lagt tilbake i vektoren slik at vi kan beregne
+		% endemoment for hvert knutepunkt.
+		% Momentene er beregnet ved bruk av de lokale stivhetsmatrisene. 
 		rotations = addZerosToRotations(rotations, nodes);
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
 		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
@@ -90,14 +91,14 @@ function [ans] = enter()
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
-		% Check if the structure is yielding. If so; where?
+		% Sjekker om konstruksjonen flyter, og i så fall hvor.
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
 		if yieldingBeam ~= 0
 			if beams(yieldingBeam, 5) == 1
-				% Increase pipe thickness
+				% Øker tykkelse på rørprofilet.
 				pipeThickness = pipeThickness * 1.1;
 			else
-				% Increase I profile
+				% Øker IPE-profil.
 				ibeamCounter = ibeamCounter + 1;
 				if ibeamCounter == 27
 					ibeamCounter = 1;
