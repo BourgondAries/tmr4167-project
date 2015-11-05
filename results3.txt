@@ -60,8 +60,8 @@ Shear:-24.5756kN
 Tension:465.7222kPa
 ----------
 Node:middle/max
-Moment:16.9565kNm
-Tension:678.2609kPa
+Moment:16.7935kNm
+Tension:671.7391kPa
 
 Beam:5
 ----------
@@ -92,8 +92,8 @@ Shear:-6.5729kN
 Tension:156.8482kPa
 ----------
 Node:middle/max
-Moment:11.2512kNm
-Tension:450.049kPa
+Moment:11.2488kNm
+Tension:449.951kPa
 
 Beam:7
 ----------
