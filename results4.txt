@@ -1,0 +1,19 @@
+
+Beam:1
+----------
+Node:1
+Moment:-0.375kNm
+Shear:1.3125kN
+Tension:-80894.3774kPa
+----------
+Node:2
+Moment:-2.8422e-17kNm
+Shear:-1.3125kN
+Tension:-6.1311e-12kPa
+----------
+Node:middle/max
+Moment:0.1875kNm
+Tension:40447.1887kPa
+
+Pipe thickness:  1.062456e-05
+IPE:  8.000000e-02

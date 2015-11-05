@@ -1,0 +1,15 @@
+#    Node ID X      Y    Z      Boundary code
+NODE 1       0.000  .000 .000   1 1 1 1 1 1
+NODE 2       1.000  .000 .000   1 1 1 1 0 1
+#
+#    Elem ID np1 np2 material geom
+BEAM 1       1   2   2        1
+#
+#        matno E-mod     poiss yield     density
+MATERIAL 1     0.210E+12 0.3   0.320E+09 0.7850E+04
+#
+#        Geom ID  Do    Thick
+PIPE     1        1     0.4
+#
+#        Load Case Elem ID qx qy qz
+BEAMLOAD 1         1       0  0  -3.E+03
