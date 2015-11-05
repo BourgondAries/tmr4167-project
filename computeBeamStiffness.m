@@ -1,3 +1,5 @@
+
+% Setter opp lokal stivhetsmatrise. 
 function [matrix] = computeBeamStiffness(hooke_module, secondmomentarea, length)
 	i = secondmomentarea;
 	e = hooke_module;

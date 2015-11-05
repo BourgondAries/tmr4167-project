@@ -1,3 +1,5 @@
+
+% Beregner fastinnspenningsmoment for lineært fordelte laster.
 function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize, nodes)
 	%{
 		The fomula for fixed end point loads:
@@ -20,12 +22,13 @@ function [loadvec] = computeFixedEndMomentLinearLoad(incloads, vecsize, beamsize
 		length = incloads(i, 9);
 		node1 = incloads(i, 5);
 		node2 = incloads(i, 6);
-		% Assume the load is perpendicular.
+		% Antar at lasten er perpendikulær.
 		q1 = incloads(i, 3);
 		q2 = incloads(i, 4);
 
 		L = length;
-		% Segment the first load
+		% Deler opp lasten i to trekantlaster. 
+        % Beregner fastinnspenningsmomenter basert på formelen over. 
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			-q1*L^2/20;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...

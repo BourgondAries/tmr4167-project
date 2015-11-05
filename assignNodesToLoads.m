@@ -1,5 +1,7 @@
+
+% Definerer hvilke type laster som virker på hvilke element. 
 function [matrix] = assignNodesToLoads(loads, beams)
-	% Assume the loads have elements in the second column
+	% Antar at lastene har elementer i neste linje.
 	matrix = [];
 	for i = 1:size(loads)
 		for j = 1:size(beams)

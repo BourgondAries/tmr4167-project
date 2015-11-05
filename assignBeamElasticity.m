@@ -1,3 +1,7 @@
+
+% Beregner bøyestivheten basert på hvilket materiale elementet består av.
+% Informasjonen er hentet fra matrisen beams, der all data om elementet er
+% lagret.
 function [matrix] = assignBeamElasticity(beams, materials)
 	to_add = [];
 	for i = 1:size(beams)

@@ -1,8 +1,14 @@
+
+% Definerer koordinatsystem og definerer elementene som vektorer.
 function [beams] = assignBeamVector(beams, nodes)
 	to_add = [];
 	for i = 1:size(beams)
 		dx = -1;
 		dy = -1;
+        
+        % Løkken kjører gjennom matrisen nodes
+        % Definerer minste og største knutepunkt for hvert element til bruk
+        % i senere beregninger av moment og skjærkraft.
 		for j = 1:size(nodes)
 			if nodes(j, 1) == beams(i, 2) ||...
 			   nodes(j, 1) == beams(i, 3)

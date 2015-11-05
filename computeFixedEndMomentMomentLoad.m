@@ -1,3 +1,5 @@
+
+% Beregner fastinnspenningsmoment for påsatte endemoment. 
 function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize, nodes)
 	%{
 		The fomula for fixed end point loads:
@@ -21,11 +23,12 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize, 
 		node1 = mloads(i, 5);
 		node2 = mloads(i, 6);
 
-		% Assume positive moment is clockwise.
-
+		% Antar at momentet er positivt med klokken. 
 		L = length;
 		a = distance;
 		b = L - a;
+        
+        % Beregninger basert på formelen over. 
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			M * b * (2 * a - b) / L ^ 2;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...

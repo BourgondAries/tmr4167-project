@@ -1,8 +1,15 @@
+
+% Beregner lengden på hvert element. 
 function [matrix] = assignBeamLength(beams, nodes)
 	to_add = [];
+    
+    % For-løkken kjører gjennom matrisen fra første til siste element.
 	for i = 1:size(beams)
 		dx = -1;
 		dy = -1;
+        
+        % Henter ut plassering (koordinater) for hvert knutepunkt og regner
+        % avstanden mellom dem. 
 		for j = 1:size(nodes)
 			if nodes(j, 1) == beams(i, 2) ||...
 			   nodes(j, 1) == beams(i, 3)
@@ -17,8 +24,11 @@ function [matrix] = assignBeamLength(beams, nodes)
 					dy = dy - nodes(j, 4);
 				end
 			end
-		end
+        end
+        % Bruker Pytagoras for å beregne avstand.
 		to_add(i) = sqrt(dx^2 + dy^2);
-	end
+    end
+    
+    % Legger til data om elementlengde i matrisen beams.
 	matrix = [beams transpose(to_add)];
 end

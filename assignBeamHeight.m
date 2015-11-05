@@ -1,3 +1,6 @@
+
+% Definerer høyden på tverrsnittet til hvert element og lagrer
+% informasjonen sm en ny kolonne i matrisen beams. 
 function beams = assignBeamHeight(beams, pipes, iheight)
 	to_add = [];
 	for i = 1:size(beams, 1)
