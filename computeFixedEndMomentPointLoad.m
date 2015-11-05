@@ -50,7 +50,7 @@ function [loadvec] = computeFixedEndMomentPointLoad(ploads, vecsize, beamsize, n
 		b = L - a;
 
 
-        % Setter opp lastvektor og regner ut momentene. 
+		% Setter opp lastvektor og regner ut momentene.
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			neg * a * b ^ 2 / L ^ 2;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...

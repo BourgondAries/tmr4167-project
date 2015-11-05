@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 10:10
+for filenumber = 11:11
 
 	% Åpne en fil som tilsvarer strukturen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
