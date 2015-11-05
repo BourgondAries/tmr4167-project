@@ -135,6 +135,7 @@ for filenumber = 1:4
 			%fprintf('% d % i\n', ...
 				%pipeThickness, ibeamCounter);
 			proper = {ibeamCounter pipeThickness allMoments};
+			break;
 			pipeThickness = pipeThickness * 0.9;
 		end
 	end

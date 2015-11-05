@@ -63,5 +63,5 @@ Node:middle/max
 Moment:7.6388kNm
 Tension:381461.6278kPa
 
-Pipe thickness:  2.656140e-07
+Pipe thickness:  1.000000e-02
 IPE:  8.000000e-02
