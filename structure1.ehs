@@ -41,8 +41,8 @@ BEAM 20      15  16  1        1
 #        matno E-mod     poiss yield     density
 MATERIAL 1     0.210E+12 0.3   0.320E+09 0.7850E+04
 #
-#    Geom ID  Do    Thick
-PIPE 1        0.66  0.01
+#        Geom ID  Do    Thick
+PIPE     1        0.6   0.01
 #
 #        Load Case Elem ID qx qy qz
 BEAMLOAD 1         5       0  0  -9.E+03

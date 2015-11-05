@@ -25,7 +25,7 @@ function [nodes beams materials pipes beamloads nodeloads incloads moments] = re
 	incloads = [];
 	moments = [];
 
-	% Åpner inputfil 
+	% Åpner inputfil
 	fid = fopen(filename,'r');
 
 	% Sorterer input etter hvilken matrise informasjonen skal inn i.
@@ -64,7 +64,7 @@ function [nodes beams materials pipes beamloads nodeloads incloads moments] = re
     %Lukker inputfilen.
 	fclose(fid);
 
-	% Konverterer alle cellestrukturer til matriser. 
+	% Konverterer alle cellestrukturer til matriser.
 	nodes = cell2mat(nodes);
 	beams = cell2mat(beams);
 	materials = cell2mat(materials);

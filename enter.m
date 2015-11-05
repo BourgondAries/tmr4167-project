@@ -8,7 +8,6 @@ file = 'structure1.ehs';
 
 % Henter ut flytespenning.
     yieldStrength = mats(1, 4) * 0.7;
-    ans = 0;
     %starter med første IPE-bjelke, definerer høyde og annet
     pipeThickness = pipes(3);
     %arealmoment til senere bruk.
@@ -21,7 +20,7 @@ for i = 1:100
 	%arealmoment til senere bruk.
     [h i] = pickIbeam(ibeamCounter);
     if h == 0
-        ans = 'NO SUITABLE SOLUTION!';
+        proper = 'NO SUITABLE SOLUTION!';
         return;
     end
 
@@ -131,7 +130,7 @@ for i = 1:100
         fprintf('%d %i\n', ...
             pipeThickness, ibeamCounter);
         pipeThickness = pipeThickness * 0.9;
-        ans = {ibeamCounter pipeThickness allMoments};
+        proper = {ibeamCounter pipeThickness allMoments};
     end
 end
 
