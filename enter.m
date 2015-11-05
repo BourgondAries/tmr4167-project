@@ -126,7 +126,7 @@ for i = 1:100
                 pipeThickness = pipeThickness * 1.1;
             end
         end
-    else
+    else 
         fprintf('%d %i\n', ...
             pipeThickness, ibeamCounter);
         pipeThickness = pipeThickness * 0.9;
