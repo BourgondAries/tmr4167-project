@@ -5,8 +5,7 @@ function [ans] = enter()
     %----leser inputfilen og strukturer informasjonen i matriser----
 	[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = readEhsFile('structureEx.ehs');
 
-	file = 'structure1.ehs';
-
+	yieldStrength = mats(1, 4) * 0.7;
 	ans = 0;
     pipeThickness = pipes(3);
 	ibeamCounter = 1;
@@ -14,6 +13,12 @@ function [ans] = enter()
 	
         %starter med første IPE-bjelke, definerer høyde og annet
         %arealmoment til senere bruk.
+
+	pipeThickness = pipes(3);
+	ibeamCounter = 1;
+	%starter med første IPE-bjelke, definerer høyde og annet
+	%arealmoment til senere bruk.
+
 	for i = 1:100
 		[nodes, beams, mats, pipes, qloads, ploads, incload, moments] = ...
 			readEhsFile(file);
@@ -22,7 +27,7 @@ function [ans] = enter()
 			ans = 'NO SUITABLE SOLUTION!';
 			return;
         end
-        
+
         %Hvis spenningen er utenfor kravet, defineres en ny tykkelse for
         %rørtverrsnittet.
 		pipes(3) = pipeThickness;
@@ -33,12 +38,20 @@ function [ans] = enter()
         % Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
 		geoms = createGeometries(pipes, i);  
         % Beregner lengde på hvert element.
+		conn = constructConnectivityMatrix(beams);
+        %Setter opp I-verdier for alle ulike geometrier i en matrise kalt geoms
+		geoms = createGeometries(pipes, i);
+        %Beregner lengde på hvert element.
 		beams = assignBeamLength(beams, nodes);
         % Beregner bøyestivhet for elementene og lagrer informasjonen i
         %matrisen: beams.
 		beams = assignBeamElasticity(beams, mats);
         % Legger til en kolonne med andre arealmoment til matrisen beam for
         %de ulike geometriene. 
+
+        %Legger til en kolonne med andre arealmoment til matrisen beam for
+        %de ulike geometriene.
+
 		beams = assignBeamSecondMomentArea(beams, geoms);
         % Definerer aksesystem og elementene som vektorer.
 		beams = assignBeamVector(beams, nodes);
@@ -112,4 +125,6 @@ function [ans] = enter()
 			ans = {ibeamCounter pipeThickness allMoments};
 		end
 	end
+
+	ans = createResultText(ans);
 end
