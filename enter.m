@@ -85,6 +85,16 @@ function [ans] = enter()
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
 
+		momentShear = computeMomentShear(endmoments);
+		pointShear = computePointShear(ploads, beamsize);
+		beamShear = computeBeamShear(qloads, beamsize);
+		linearShear = computeLinearShear(incloads, beamsize);
+		totalShear = momentShear + pointShear + beamShear + linearShear;
+
+		ans = computeBendingTension(allMoments, beams);
+		ans = createResultText(allMoments, totalShear, ans);
+		return;
+
 		% Check if the structure is yielding. If so; where?
 		yieldingBeam = isYielding(allMoments, beams, yieldStrength);
 		if yieldingBeam ~= 0
@@ -107,5 +117,5 @@ function [ans] = enter()
 		end
 	end
 
-	ans = createResultText(ans);
+	ans = createResultText(allMoments, totalShear);
 end

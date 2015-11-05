@@ -1,5 +1,5 @@
-function shear = computePointShear(ploads)
-	shear = [];
+function shear = computePointShear(ploads, beamsize)
+	shear = zeros(beamsize, 2);
 	for i = 1:size(ploads)
 		beamid = ploads(i, 2);
 		length = ploads(i, 11);
@@ -16,6 +16,6 @@ function shear = computePointShear(ploads)
 		p = [px pz] - projection * [dx dz];
 		neg = cross([p(1) 0 p(2)], [dx 0 dz]);
 		neg = neg(2);
-		shear = [shear; -neg/2];
+		shear(beamid, :) = [-neg/2];
 	end
 end
