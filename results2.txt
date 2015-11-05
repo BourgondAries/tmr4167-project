@@ -2,9 +2,9 @@
 Beam:1
 ----------
 Node:1
-Moment:-1.3889kNm
+Moment:1.3889kNm
 Shear:29.1667kN
-Tension:-69358.0074kPa
+Tension:69358.0074kPa
 ----------
 Node:2
 Moment:9.7222kNm
@@ -18,9 +18,9 @@ Tension:34679.0037kPa
 Beam:2
 ----------
 Node:1
-Moment:13.8889kNm
+Moment:-13.8889kNm
 Shear:-45.8333kN
-Tension:693576.9524kPa
+Tension:-693576.9524kPa
 ----------
 Node:2
 Moment:-5.5556kNm
@@ -34,9 +34,9 @@ Tension:138715.6246kPa
 Beam:3
 ----------
 Node:1
-Moment:-23.6111kNm
+Moment:23.6111kNm
 Shear:99.3052kN
-Tension:-1179080.6631kPa
+Tension:1179080.6631kPa
 ----------
 Node:2
 Moment:22.2221kNm
@@ -50,9 +50,9 @@ Tension:728255.566kPa
 Beam:4
 ----------
 Node:1
-Moment:-22.2221kNm
+Moment:22.2221kNm
 Shear:38.8885kN
-Tension:-1109717.1938kPa
+Tension:1109717.1938kPa
 ----------
 Node:2
 Moment:0kNm
