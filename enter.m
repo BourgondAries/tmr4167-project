@@ -96,7 +96,7 @@ for filenumber = 1:2
 		% Momentene er beregnet ved bruk av de lokale stivhetsmatrisene.
 		endmoments = computeMomentsPerBeam(locals, fem, rotations, beams);
 
-		moments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
+		pointmoments = computeMomentUnderPointLoad(ploads, endmoments, beamsize);
 		momentsBeam = computeMomentUnderBeamLoad(qloads, endmoments, beamsize);
 		momentsBeam = momentsBeam + ...
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
@@ -114,7 +114,7 @@ for filenumber = 1:2
 		totalShear = momentShear + pointShear + beamShear + linearShear;
 
 		% allMoments gir endemoment for alle elementene.
-		allMoments = [endmoments; transpose(moments); transpose(momentsBeam)];
+		allMoments = [endmoments; transpose(pointmoments); transpose(momentsBeam)];
 
 		tension = computeBendingTension(allMoments, beams);
 
@@ -150,8 +150,6 @@ for filenumber = 1:2
 
 	dlmwrite(strcat('momentShear', num2str(filenumber), '.txt'), momentShear);
 	dlmwrite(strcat('externalShear', num2str(filenumber), '.txt'), totalShear - momentShear);
-
-
 
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
 	fid = fopen(strcat('text', num2str(filenumber), '.txt'), 'w');
