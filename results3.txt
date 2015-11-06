@@ -83,12 +83,12 @@ Beam:6
 ----------
 Node:1
 Moment:-10.7754kNm
-Shear:17.7153kN
+Shear:12.7153kN
 Tension:-431.017kPa
 ----------
 Node:2
 Moment:3.9212kNm
-Shear:-7.7153kN
+Shear:-12.7153kN
 Tension:156.8482kPa
 ----------
 Node:middle/max
