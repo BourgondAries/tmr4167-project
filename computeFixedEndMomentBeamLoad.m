@@ -4,7 +4,7 @@ function [loadvec] = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, no
 	%{
 		Formelen for fastinnspenningsmomenter for jevnt fordelt last:
 
-		       q
+			   q
 		a -----|--------- b
 		 VVVVVVVVVVVVVVV
 		|---------------|
@@ -12,7 +12,7 @@ function [loadvec] = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, no
 		Gir -qL^/12 til venstre, og qL^/12 to til høyre.
 	%}
 	% Definerer en tom lastvektor
-    loadvec = zeros(vecsize, 1, beamsize);
+	loadvec = zeros(vecsize, 1, beamsize);
 	for i = 1:size(qloads)
 		beamid = qloads(i, 2);
 		length = qloads(i, 10);
@@ -35,14 +35,14 @@ function [loadvec] = computeFixedEndMomentBeamLoad(qloads, vecsize, beamsize, no
 		projection = [dx dz] * [qx; qz];
 		q = [qx qz] - projection * [dx dz];
 
-        % Vi ønsker å finne hvilken akse vektoren står normalt på.
-        % Bruker kryssproduktet til å finne det ut:
+		% Vi ønsker å finne hvilken akse vektoren står normalt på.
+		% Bruker kryssproduktet til å finne det ut:
 		neg = cross([q(1) 0 q(2)], [dx 0 dz]);
 		neg = neg(2);
 		% Hvis neg < 0, vil momentet (kalt P) gå med klokken rundt den
 		% minste noden.
 
-        % Gir -qL^/12 til venstre, og qL^/12 to til høyre.
+		% Gir -qL^/12 til venstre, og qL^/12 to til høyre.
 		L = length;
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			neg * L ^ 2 / 12;

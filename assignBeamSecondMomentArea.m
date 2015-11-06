@@ -9,7 +9,7 @@ function [matrix] = assignBeamSecondMomentArea(beams, geometry)
 				to_add = [to_add geometry(j, 2)];
 			end
 		end
-    end
-    % Legger til informasjonen i matrisne beams. 
+	end
+	% Legger til informasjonen i matrisne beams. 
 	matrix = [beams transpose(to_add)];
 end

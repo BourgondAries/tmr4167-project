@@ -9,14 +9,14 @@ function [geometries] = createGeometries(pipes, ibeam)
 		 2, ...]
 	%}
 	% Definerer først en tom matrise.
-    geometries = [];
+	geometries = [];
 	prevmax = 0;
-    
-    % Iterer gjennom matrisen pipes med info om rørprofilet. 
+	
+	% Iterer gjennom matrisen pipes med info om rørprofilet. 
 	for i = 1:size(pipes, 1)
-        
-        % Setter opp matrisen med informasjon om type geometri, og annet
-        % arealmoment for tverrsnittet. 
+		
+		% Setter opp matrisen med informasjon om type geometri, og annet
+		% arealmoment for tverrsnittet. 
 		geometries = [geometries; i, computeSecondMomentOfArea(...
 			pipes(i, 2)/2,...
 			pipes(i, 2)/2 - pipes(i, 3))];

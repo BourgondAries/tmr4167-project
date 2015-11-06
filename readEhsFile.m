@@ -33,10 +33,10 @@ function [nodes beams materials pipes beamloads nodeloads incloads moments] = re
 	while line ~= -1
 		if line(1) == '#'
 			% Hopper over linjer med #
-        else % Deler opp stringer, lagrer informasjonen i celler.
+		else % Deler opp stringer, lagrer informasjonen i celler.
 			elements = strsplit(line);
 			ll = elements{1};  % ll = lookahead
-            % Ønsker input som tall data, koverterer fra tekst til tall.
+			% Ønsker input som tall data, koverterer fra tekst til tall.
 			quantify = cellfun(@str2num, elements(2:end - 1), 'un', 0);
 			if strcmp(ll, 'NODE')
 				nodes = [nodes; quantify];
@@ -60,8 +60,8 @@ function [nodes beams materials pipes beamloads nodeloads incloads moments] = re
 			end
 		end
 		line = fgets(fid);
-    end
-    %Lukker inputfilen.
+	end
+	%Lukker inputfilen.
 	fclose(fid);
 
 	% Konverterer alle cellestrukturer til matriser.

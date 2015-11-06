@@ -1,7 +1,7 @@
 % Beregner skjærkraft for lineær økende last.
 function shear = computeLinearShear(incloads, beamsize)
 	% Defienerer en tom lastvektor.
-    shear = zeros(beamsize, 2);
+	shear = zeros(beamsize, 2);
 
 	for i = 1:size(incloads)
 		beamid = incloads(i, 2);
@@ -12,8 +12,8 @@ function shear = computeLinearShear(incloads, beamsize)
 		q2 = incloads(i, 4);
 		L = length;
 
-        % Beregner skjærkraft i hver ende basert på lastintensiteten i hver
-        % ende.
+		% Beregner skjærkraft i hver ende basert på lastintensiteten i hver
+		% ende.
 		q1s = [q1*L/6 -q1*L/3];
 		q2s = [q2*L/3 -q2*L/6];
 		shear(beamid, :) = [q1s+q2s];

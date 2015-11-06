@@ -4,16 +4,16 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize, 
 	%{
 		Formel for fastinnspenningsmoment er:
 
-		       M
+			   M
 		a -----|--------- b
-		       V
+			   V
 		|---------------|
 
 		a + b = L
 
 		Gir Mb(2a-b)/L^2 til venstre og Ma(2b-a)/L^2 til høyre.
 	%}
-    % Definerer en tov lastvektor. 
+	% Definerer en tov lastvektor. 
 	loadvec = zeros(vecsize, 1, beamsize);
 	for i = 1:size(mloads)
 		beamid = mloads(i, 2);
@@ -28,8 +28,8 @@ function [loadvec] = computeFixedEndMomentMomentLoad(mloads, vecsize, beamsize, 
 		L = length;
 		a = distance;
 		b = L - a;
-        
-        % Beregninger basert på formelen over. 
+		
+		% Beregninger basert på formelen over. 
 		loadvec(node1, 1, beamid) = loadvec(node1, 1, beamid) + ...
 			M * b * (2 * a - b) / L ^ 2;
 		loadvec(node2, 1, beamid) = loadvec(node2, 1, beamid) + ...
