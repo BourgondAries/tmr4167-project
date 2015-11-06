@@ -148,6 +148,11 @@ for filenumber = 1:2
 	end
 
 
+	dlmwrite(strcat('momentShear', num2str(filenumber), '.txt'), momentShear);
+	dlmwrite(strcat('externalShear', num2str(filenumber), '.txt'), totalShear - momentShear);
+
+
+
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
 	fid = fopen(strcat('text', num2str(filenumber), '.txt'), 'w');
 	fwrite(fid, createLatexTable(allMoments));
