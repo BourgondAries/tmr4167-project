@@ -147,7 +147,11 @@ for filenumber = 1:2
 		end
 	end
 
+
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
+	fid = fopen(strcat('text', num2str(filenumber), '.txt'), 'w');
+	fwrite(fid, createLatexTable(allMoments));
+	fclose(fid);
 
 	% Lagrer resultatene i en tekstfil.
 	fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');

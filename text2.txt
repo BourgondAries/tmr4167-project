@@ -1,0 +1,1 @@
+1 & -1.3889 kNm & 9.7222 kNm & 11.8056 kNm\\ \hline\n2 & 13.8889 kNm & -5.5556 kNm & 22.2222 kNm\\ \hline\n3 & -23.6111 kNm & 22.2221 kNm & 60.4165 kNm\\ \hline\n4 & -22.2221 kNm & 0 Nm & 29.8609 kNm\\ \hline\n
