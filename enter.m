@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 3:3
+for filenumber = 1:3
 
 	% Åpne en fil som tilsvarer konstruksjonen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
@@ -86,7 +86,7 @@ for filenumber = 3:3
 		% Setter inn randbetingelser for fast innspent slik at rotasjonene
 		% her blir null.
 		[stiffness momentvector] = pruneFixedEnds(nodes, momentvector, stiffness);
-        % Løser likningssettet.
+		% Løser likningssettet.
 		rotations = inv(stiffness) * momentvector;
 
 		% Vi har nå rotasjonen for hvert punkt i vektoren rotations, utenom
@@ -102,15 +102,15 @@ for filenumber = 3:3
 			computeMomentUnderLinearLoad(incloads, endmoments, beamsize);
 
 		% ---------------- Beregning av skjærkrefter -------------------%
-        % Beregner skjærbidrag fra endemomenter.
-        momentShear = computeMomentShear(endmoments, beams);
-        % Beregner skjærbidrag fra punktlast.
+		% Beregner skjærbidrag fra endemomenter.
+		momentShear = computeMomentShear(endmoments, beams);
+		% Beregner skjærbidrag fra punktlast.
 		pointShear = computePointShear(ploads, beamsize);
-        % Beregner skjærbidrag fra jevnt fordelt last.
+		% Beregner skjærbidrag fra jevnt fordelt last.
 		beamShear = computeBeamShear(qloads, beamsize);
-        % Beregner skjærbidrag fra linært fordelt last.
+		% Beregner skjærbidrag fra linært fordelt last.
 		linearShear = computeLinearShear(incloads, beamsize);
-        % Summerer opp totalt bidrat for hvertelement.
+		% Summerer opp totalt bidrat for hvertelement.
 		totalShear = momentShear + pointShear + beamShear + linearShear;
 
 		% allMoments gir endemoment for alle elementene.
@@ -137,10 +137,10 @@ for filenumber = 3:3
 				end
 			end
 		else
-        % Hvis spenningen er innenfor området ønsker vi å optimalisere
-             % ved å redusere tykkelsen på rørprofilen så mye som mulig.
+		% Hvis spenningen er innenfor området ønsker vi å optimalisere
+			 % ved å redusere tykkelsen på rørprofilen så mye som mulig.
 
-             %fprintf('% d % i\n', ...
+			 %fprintf('% d % i\n', ...
 				%pipeThickness, ibeamCounter);
 			proper = {ibeamCounter pipeThickness allMoments};
 			pipeThickness = pipeThickness * 0.9;
@@ -151,13 +151,13 @@ for filenumber = 3:3
 
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
 
-    % Lagrer resultatene i en tekstfil.
-    fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');
+	% Lagrer resultatene i en tekstfil.
+	fid = fopen(strcat('results', num2str(filenumber), '.txt'), 'w');
 	fwrite(fid, text);
 	fwrite(fid, sprintf('\nPipe thickness: % d\nIPE: % d\n', pipeThickness, h*2));
 	fclose(fid);
 
 	% Skriver ut rotasjonsvektor og stivhetsmatrise til bruk i rapporten.
-    dlmwrite(strcat('rotations', num2str(filenumber), '.txt'), rotations);
+	dlmwrite(strcat('rotations', num2str(filenumber), '.txt'), rotations);
 	dlmwrite(strcat('stiffness', num2str(filenumber), '.txt'), stiffness);
 end
