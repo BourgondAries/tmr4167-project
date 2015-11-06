@@ -27,7 +27,13 @@ function shear = computePointShear(ploads, beamsize)
 
 		a = ploads(i, 6);
 		L = ploads(i, 6);
+		b = L-a;
 
-		shear(beamid, :) = [-neg/2*a*(L-a)];
+		% A_z = P/L*(L-a)
+		if L-a == 0 || L-b == 0
+			shear(beamid, :) = [0 0];
+		else
+			shear(beamid, :) = [-neg/2/L*b -neg/2/L*a];
+		end
 	end
 end

@@ -147,8 +147,6 @@ for filenumber = 1:3
 		end
 	end
 
-	allMoments
-
 	text = createResultText(allMoments ./ 1000, totalShear ./ 1000, tension ./ 1000);
 
 	% Lagrer resultatene i en tekstfil.
