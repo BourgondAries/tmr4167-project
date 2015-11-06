@@ -5,7 +5,7 @@ function shear = computeMomentShear(endmoments, beams)
 	% Iterer gjennom endemomentene.
 	% Beregner skjærkraft bidrag fra endemomenter med formelen:
 	%
-	%		   Q_endemoment = -(M1+M2)/L
+	% Q_endemoment = -(M1+M2)/L
 	%
 	t = 0;
 	for i = endmoments

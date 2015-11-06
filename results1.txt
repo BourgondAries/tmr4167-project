@@ -88,7 +88,7 @@ Tension:-48626.0556kPa
 ----------
 Node:2
 Moment:284.4334kNm
-Shear:76.4898kN
+Shear:-91.5102kN
 Tension:92669.4264kPa
 ----------
 Node:middle/max
@@ -168,7 +168,7 @@ Tension:-105404.6606kPa
 ----------
 Node:2
 Moment:-129.7749kNm
-Shear:41.2205kN
+Shear:5.8605kN
 Tension:-68465.5123kPa
 ----------
 Node:middle/max
