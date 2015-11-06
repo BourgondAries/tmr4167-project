@@ -2,7 +2,7 @@
 clc;
 clear all;
 
-for filenumber = 11:11
+for filenumber = 3:3
 
 	% Åpne en fil som tilsvarer konstruksjonen.
 	file = strcat('structure', num2str(filenumber), '.ehs');
@@ -137,7 +137,7 @@ for filenumber = 11:11
 				end
 			end
 		else
-        else % Hvis spenningen er innenfor området ønsker vi å optimalisere
+        % Hvis spenningen er innenfor området ønsker vi å optimalisere
              % ved å redusere tykkelsen på rørprofilen så mye som mulig.
 
              %fprintf('% d % i\n', ...
